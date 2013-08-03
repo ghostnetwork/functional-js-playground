@@ -203,6 +203,35 @@ describe('immutable', function(){
         assert(result == false);
       });
     });
+
+    describe('#isEmpty', function(){
+      it('should return true if the array is empty', function(){
+        var lockedArray = immutableArray();
+        var result = lockedArray.isEmpty();
+        assert(result);
+      });
+
+      it('should return false if the array is not empty', function(){
+        var lockedArray = immutableArray(array);
+        var result = lockedArray.isEmpty();
+        assert(result == false);
+      });
+    });
+
+    describe('#isNotEmpty', function(){
+      it('should return false if the array is empty', function(){
+        var lockedArray = immutableArray();
+        var result = lockedArray.isNotEmpty();
+        assert(result == false);
+      });
+
+      it('should return false if the array is not empty', function(){
+        var lockedArray = immutableArray(array);
+        var result = lockedArray.isNotEmpty();
+        assert(result);
+      });
+    });
+    
   });
 
   function checkArrayIsEmpty(lockedArray) {

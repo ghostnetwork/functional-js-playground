@@ -18,14 +18,18 @@ immutableArray = function(array) {
   that.every = mozillaEvery;
   that.some = mozillaSome;
   that.contains = defaultContains;
+  that.first = defaultFirst;
+
+  that.isEmpty = function() { return lockedArray.length == 0; };
+  that.isNotEmpty = function() { return that.isEmpty() == false; };
   
   // cribbed from http://goo.gl/LOzO4
   function mozillaForEach(fn, scope) {
     var i, len;
     for (i = 0, len = lockedArray.length; i < len; ++i) {
-        if (i in lockedArray) {
-            fn.call(scope, lockedArray[i], i);
-        }
+      if (i in lockedArray) {
+          fn.call(scope, lockedArray[i], i);
+      }
     }
   };
 
@@ -36,7 +40,7 @@ immutableArray = function(array) {
     t = Object(lockedArray);
     len = t.length >>> 0;
     if (typeof fun !== 'function') {
-        throw new TypeError();
+      throw new TypeError();
     }
 
     thisp = arguments[1];
@@ -70,6 +74,11 @@ immutableArray = function(array) {
     return lockedArray.indexOf(target) != -1;
   }
 
+  function defaultFirst() {
+    return lockedArray.isNotEmpty() ? lockedArray[0] : undefined;
+  }
+
+  // ...
   return that;
 };
 
