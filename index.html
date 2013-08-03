@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <title>verdoux</title>
+
+    <meta charset='utf-8'/>
+    <!-- <link rel="stylesheet" href="main.css"></link> -->
+    
+    <script src="src/verdoux.js"></script>
+    <script src="src/predicates.js"></script>
+
+    <script type="text/javascript">
+      function configureUI() {
+        var testButton = document.getElementById('testButton');
+        if (existy(testButton)) {
+          testButton.addEventListener('click', function(event){
+            console.log('run tests (TBD)...');
+          });
+        }
+      }
+    </script>
+  </head>
+
+  <body onload='configureUI()'>
+    <h1>verdoux</h1>
+    <p>
+      <button id="testButton">Test</button>
+    </p>
+  </body>
+</html>
