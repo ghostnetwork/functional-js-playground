@@ -218,7 +218,21 @@ describe('immutable', function(){
         assert(first === expectedItem);
       });
     });
+
+    describe('#last', function(){
+      it('should return undefined if the array is empty', function(){
+        var lockedArray = immutableArray();
+        var last = lockedArray.last();
+        assert(last == undefined);
+      });
     
+      it('should return the last item in the array', function(){
+        var lockedArray = immutableArray(array);
+        var last = lockedArray.last();
+        var expectedItem = array[array.length - 1];
+        assert(last === expectedItem);
+      });
+    });
 
     describe('#isEmpty', function(){
       it('should return true if the array is empty', function(){
@@ -247,7 +261,6 @@ describe('immutable', function(){
         assert(result);
       });
     });
-    
   });
 
   function checkArrayIsEmpty(lockedArray) {

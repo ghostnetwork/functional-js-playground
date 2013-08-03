@@ -19,6 +19,7 @@ immutableArray = function(array) {
   that.some = mozillaSome;
   that.contains = defaultContains;
   that.first = defaultFirst;
+  that.last = defaultLast;
 
   that.isEmpty = function() { return lockedArray.length == 0; };
   that.isNotEmpty = function() { return that.isEmpty() == false; };
@@ -76,6 +77,10 @@ immutableArray = function(array) {
 
   function defaultFirst() {
     return that.isNotEmpty() ? lockedArray[0] : undefined;
+  }
+
+  function defaultLast() {
+    return that.isNotEmpty() ? lockedArray[lockedArray.length - 1] : undefined;
   }
 
   // ...
