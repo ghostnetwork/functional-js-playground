@@ -204,6 +204,22 @@ describe('immutable', function(){
       });
     });
 
+    describe('#first', function(){
+      it('should return undefined if the array is empty', function(){
+        var lockedArray = immutableArray();
+        var first = lockedArray.first();
+        assert(first == undefined);
+      });
+
+      it('should return the first item in the array', function(){
+        var lockedArray = immutableArray(array);
+        var first = lockedArray.first();
+        var expectedItem = array[0];
+        assert(first === expectedItem);
+      });
+    });
+    
+
     describe('#isEmpty', function(){
       it('should return true if the array is empty', function(){
         var lockedArray = immutableArray();

@@ -22,7 +22,7 @@ immutableArray = function(array) {
 
   that.isEmpty = function() { return lockedArray.length == 0; };
   that.isNotEmpty = function() { return that.isEmpty() == false; };
-  
+
   // cribbed from http://goo.gl/LOzO4
   function mozillaForEach(fn, scope) {
     var i, len;
@@ -75,7 +75,7 @@ immutableArray = function(array) {
   }
 
   function defaultFirst() {
-    return lockedArray.isNotEmpty() ? lockedArray[0] : undefined;
+    return that.isNotEmpty() ? lockedArray[0] : undefined;
   }
 
   // ...
