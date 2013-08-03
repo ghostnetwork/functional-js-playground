@@ -1,6 +1,9 @@
 
 immutableArray = function(array) {
-  var lockedArray = array || [];
+  this.prototype = Function.prototype;
+
+  var lockedArray = wrap(array);
+
   var that = { get length() {return lockedArray.length;} };
   that.prototype = immutableArray.prototype;
 
@@ -8,6 +11,7 @@ immutableArray = function(array) {
 
   that.isEmpty = function() { return lockedArray.length == 0; };
   that.isNotEmpty = function() { return that.isEmpty() == false; };
+  that.isImmutable = function() { return isImmutable(that); }
 
   that.forEach = defaultForEach;
   that.every = defaultEvery;
@@ -16,6 +20,18 @@ immutableArray = function(array) {
   that.first = defaultFirst;
   that.last = defaultLast;
   that.mutableCopy = defaultMutableCopy;
+
+  function wrap(array) {
+    if (isImmutable(array))
+      return wrapImmutableArray(array);
+    else
+      return wrapArray(array);;
+  }
+
+  function wrapArray(array) { return array || []; }
+  function wrapImmutableArray(immutable) {
+    return wrapArray(immutable.mutableCopy());
+  }
 
   // cribbed from http://goo.gl/LOzO4
   function defaultForEach(fn, scope) {
@@ -141,4 +157,8 @@ var everyOtherN = function(n, sourceArray) {
   return immutableArray(array);
 };
 
-immutableArray.prototype = Function.prototype;
+var isImmutable = function(other) {
+  return other ? other.prototype === immutableArray.prototype : false;
+};
+
+immutableArray.isImmutable = isImmutable;

@@ -49,6 +49,18 @@ describe('immutable', function(){
         var lockedArray = immutableArray(testArray);
         checkArrayIsEmpty(lockedArray);
       });
+
+      it('should be able to be created using an immutableArray', function(){
+        var lockedArray = createAggregatedLockedArray();
+        var otherArray = immutableArray(lockedArray);
+        assert(otherArray != null);
+        assert(otherArray.length == lockedArray.length);
+
+        var hasSame = otherArray.every(function(element, index) {
+          return element === lockedArray.itemAtIndex(index);
+        });
+        assert(hasSame);
+      });
     });
     
     describe('#length', function(){
@@ -322,6 +334,41 @@ describe('immutable', function(){
         var result = everyThird();
         var expectedNumItems = Math.round(lockedArray.length / 3);
         assert(result.length == expectedNumItems);
+      });
+    });
+
+    describe('#isImmutable', function(){
+      it('should return false when given null', function(){
+        var result = immutableArray.isImmutable(null);
+        assert(result == false);
+      });
+
+      it('should return false when given undefined', function(){
+        var result = immutableArray.isImmutable();
+        assert(result == false);
+      });
+
+      it('should return false when given an array', function(){
+        var result = immutableArray.isImmutable(array);
+        assert(result == false);
+      });
+
+      it('should return false when given an object', function(){
+        var obj = Object.create(null);
+        var result = immutableArray.isImmutable(obj);
+        assert(result == false);
+      });
+
+      it('should return true when given an immutableArray using prototype', function(){
+        var lockedArray = immutableArray(array);
+        var result = immutableArray.isImmutable(lockedArray);
+        assert(result);
+      });
+
+      it('should return true when given an immutableArray using instance', function(){
+        var lockedArray = immutableArray(array);
+        var result = lockedArray.isImmutable();
+        assert(result);
       });
     });
 
