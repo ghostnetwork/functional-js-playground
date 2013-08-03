@@ -8,18 +8,8 @@ require('../src/immutable');
 
 describe('immutable', function(){
   var array = ['a', 'b', 'c'];
-
-  beforeEach(function() {
-  });
-
-  describe('#immutable', function(){
-    it('should return the value that was originally given to it', function(){
-      var value = 'foo';
-      var immutableFoo = immutable(value);
-      var immutableValue = immutableFoo.value();
-      value.should.equal(immutableValue);
-    });
-  });
+  var numbers = [1, 2, 3, 4, 5];
+  var letters = ['z', 'y', 'x'];
 
   describe('#immutableArray', function(){
     describe('#constructor', function(){
@@ -31,8 +21,8 @@ describe('immutable', function(){
 
       it('should have an immutable copy of the array it was created with', function(){
         var lockedArray = immutableArray(array);
-        var count = lockedArray.count();
-        assert(count === array.length);
+        var length = lockedArray.length;
+        assert(length === array.length);
       });
 
       it('should return an empty array when given null', function(){
@@ -48,17 +38,17 @@ describe('immutable', function(){
       });
     });
     
-    describe('#count', function(){
+    describe('#length', function(){
       it('should return 0 when created without a provided array', function(){
         var lockedArray = immutableArray();
-        var count = lockedArray.count();
-        assert(count === 0);
+        var length = lockedArray.length;
+        assert(length === 0);
       });
 
       it('should return the number of items in the provided array', function(){
         var lockedArray = immutableArray(array);
-        var count = lockedArray.count();
-        assert(count === array.length);
+        var length = lockedArray.length;
+        assert(length === array.length);
       });
     });
 
@@ -92,6 +82,34 @@ describe('immutable', function(){
       });
     });
 
+    describe('#isEmpty', function(){
+      it('should return true if the array is empty', function(){
+        var lockedArray = immutableArray();
+        var result = lockedArray.isEmpty();
+        assert(result);
+      });
+
+      it('should return false if the array is not empty', function(){
+        var lockedArray = immutableArray(array);
+        var result = lockedArray.isEmpty();
+        assert(result == false);
+      });
+    });
+
+    describe('#isNotEmpty', function(){
+      it('should return false if the array is empty', function(){
+        var lockedArray = immutableArray();
+        var result = lockedArray.isNotEmpty();
+        assert(result == false);
+      });
+
+      it('should return false if the array is not empty', function(){
+        var lockedArray = immutableArray(array);
+        var result = lockedArray.isNotEmpty();
+        assert(result);
+      });
+    });
+
     describe('#forEach', function(){
       it('should throw an error when given a null action', function(){
         (function(){
@@ -119,7 +137,7 @@ describe('immutable', function(){
 
       it('should not allow me to alter the original array', function(){
         var lockedArray = immutableArray(array);
-        var expectedCount = array.length;
+        var expectedLength = array.length;
 
         var action = function(element, index, theArray) {
           assert(theArray === undefined);
@@ -127,8 +145,8 @@ describe('immutable', function(){
 
         lockedArray.forEach(action);
         
-        var count = lockedArray.count();
-        assert(count === expectedCount);
+        var length = lockedArray.length;
+        assert(length === expectedLength);
       });
     });
 
@@ -234,38 +252,38 @@ describe('immutable', function(){
       });
     });
 
-    describe('#isEmpty', function(){
-      it('should return true if the array is empty', function(){
+    describe('#mutableCopy', function(){
+      it('should return undefined if the array is empty', function(){
         var lockedArray = immutableArray();
-        var result = lockedArray.isEmpty();
-        assert(result);
+        var mutableCopy = lockedArray.mutableCopy();
+        assert(mutableCopy == undefined);
       });
 
-      it('should return false if the array is not empty', function(){
+      it('should return a mutable copy of the immutable array', function(){
         var lockedArray = immutableArray(array);
-        var result = lockedArray.isEmpty();
-        assert(result == false);
+        var mutableCopy = lockedArray.mutableCopy();
+        mutableCopy.push('aaa');
+        assert(mutableCopy.length > array.length);
+      });
+
+      it('should not change the original array', function(){
+        var lockedArray = immutableArray(array);
+        var mutableCopy = lockedArray.mutableCopy();
+        mutableCopy.push('bbb');
+        assert(lockedArray.length == array.length);
       });
     });
 
-    describe('#isNotEmpty', function(){
-      it('should return false if the array is empty', function(){
-        var lockedArray = immutableArray();
-        var result = lockedArray.isNotEmpty();
-        assert(result == false);
-      });
-
-      it('should return false if the array is not empty', function(){
-        var lockedArray = immutableArray(array);
-        var result = lockedArray.isNotEmpty();
-        assert(result);
-      });
+    it('should ensure each instance of an immutableArray is unique', function(){
+      var hydrogen = immutableArray(numbers);
+      var oxygen = immutableArray(letters);
+      assert(hydrogen.first() !== oxygen.first());
     });
   });
 
   function checkArrayIsEmpty(lockedArray) {
-    var count = lockedArray.count();
-    assert(count === 0);
+    var length = lockedArray.length;
+    assert(length === 0);
   };
 
   function checkItemAtIndexEqualsItemInArrayAtIndex(lockedArray, index) {
