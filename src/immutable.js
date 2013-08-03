@@ -1,9 +1,7 @@
 
 immutableArray = function(array) {
   var lockedArray = array || [];
-  var that = {
-    get length() {return lockedArray.length;},
-  };
+  var that = { get length() {return lockedArray.length;} };
   
   that.itemAtIndex = function(index) { return lockedArray[index]; };
 
@@ -95,3 +93,10 @@ immutableArray = function(array) {
   return that;
 };
 
+immutableArray.createFilledWith = function(thing, times) {
+  var array = [times];
+  for (var i = 0; i < times; i++) {
+    array[i] = thing;
+  };
+  return immutableArray(array);
+};

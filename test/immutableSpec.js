@@ -12,6 +12,12 @@ describe('immutable', function(){
   var letters = ['z', 'y', 'x'];
 
   describe('#immutableArray', function(){
+    it('should ensure each instance of an immutableArray is unique', function(){
+      var hydrogen = immutableArray(numbers);
+      var oxygen = immutableArray(letters);
+      assert(hydrogen.first() !== oxygen.first());
+    });
+
     describe('#constructor', function(){
       it('should be empty when created without a provided array', function(){
         var lockedArray = immutableArray();
@@ -274,10 +280,22 @@ describe('immutable', function(){
       });
     });
 
-    it('should ensure each instance of an immutableArray is unique', function(){
-      var hydrogen = immutableArray(numbers);
-      var oxygen = immutableArray(letters);
-      assert(hydrogen.first() !== oxygen.first());
+    describe('#createFilledWith', function(){
+      it('should create a new immutableArray that has the requested number of items', function(){
+        var thing = '.';
+        var times = 10;
+        var lockedArray = immutableArray.createFilledWith(thing, times);
+        assert(lockedArray != null);
+        assert(lockedArray.length == times);
+      });
+
+      it('should create a new immutableArray that is only filled with the given item', function(){
+        var thing = '.';
+        var times = 10;
+        var lockedArray = immutableArray.createFilledWith(thing, times);
+        var result = lockedArray.every(function(element) { return element === thing; });
+        assert(result);
+      });
     });
   });
 
