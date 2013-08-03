@@ -131,6 +131,42 @@ describe('immutable', function(){
         assert(count === expectedCount);
       });
     });
+
+    describe('#every', function(){
+      it('should throw an error if action is null', function(){
+      });
+
+      it('should return false if the test does not return true for all items', function(){
+        var myArray = [12, 5, 8, 130, 44];
+        var lockedArray = immutableArray(myArray);
+        var result = lockedArray.every(isBigEnough);
+        assert(result === false);
+      });
+
+      it('should return true if the test returns true for all items', function(){
+        var myArray = [12, 54, 18, 130, 44];
+        var lockedArray = immutableArray(myArray);
+        var result = lockedArray.every(isBigEnough);
+        assert(result);
+      });
+    });
+
+    describe('#some', function(){
+      it('should return false if the test did not pass for any of the items', function(){
+        var myArray = [2, 5, 8, 1, 4];
+        var lockedArray = immutableArray(myArray);
+        var result = lockedArray.some(isBigEnough);
+        assert(result === false);
+      });
+
+      it('should return true if the test passed for any of the items', function(){
+        var myArray = [12, 5, 8, 1, 4];
+        var lockedArray = immutableArray(myArray);
+        var result = lockedArray.some(isBigEnough);
+        assert(result);
+      });
+    });
+    
   });
 
   function checkArrayIsEmpty(lockedArray) {
@@ -142,5 +178,10 @@ describe('immutable', function(){
     var item = lockedArray.itemAtIndex(index);
     var expectedItem = array[index];
     expectedItem.should.equal(item);
+  };
+
+  function isBigEnough(element, index, array) {
+    assert(array === undefined);
+    return (element >= 10);
   };
 });
