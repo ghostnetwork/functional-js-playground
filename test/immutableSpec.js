@@ -166,7 +166,43 @@ describe('immutable', function(){
         assert(result);
       });
     });
-    
+
+    describe('#contains', function(){
+      var target;
+
+      beforeEach(function(){
+        target = 'b';
+      });
+
+      it('should return false if the array is empty', function(){
+        var emptyArray = immutableArray();
+        var result = emptyArray.contains(target);
+        assert(result == false);
+      });
+
+      it('should return false if the given target is null', function(){
+        target = null;
+        checkDoesNotContain(target);
+      });
+
+      it('should return false if the given target is undefined', function(){
+        target = undefined;
+        checkDoesNotContain(target);
+      });
+
+      it('should return true if the array does contain the given target', function(){
+        var lockedArray = immutableArray(array);
+        var result = lockedArray.contains(target);
+        assert(result);
+      });
+
+      it('should return false if the array does not contain the given target', function(){
+        var lockedArray = immutableArray(array);
+        target = 'z';
+        var result = lockedArray.contains(target);
+        assert(result == false);
+      });
+    });
   });
 
   function checkArrayIsEmpty(lockedArray) {
@@ -183,5 +219,11 @@ describe('immutable', function(){
   function isBigEnough(element, index, array) {
     assert(array === undefined);
     return (element >= 10);
+  };
+
+  function checkDoesNotContain(target) {
+    var lockedArray = immutableArray(array);
+    var result = lockedArray.contains(target);
+    assert(result == false);
   };
 });

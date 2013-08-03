@@ -17,7 +17,8 @@ immutableArray = function(array) {
   that.forEach = mozillaForEach;
   that.every = mozillaEvery;
   that.some = mozillaSome;
-
+  that.contains = defaultContains;
+  
   // cribbed from http://goo.gl/LOzO4
   function mozillaForEach(fn, scope) {
     var i, len;
@@ -64,6 +65,10 @@ immutableArray = function(array) {
 
     return false;
   };
+
+  function defaultContains(target) {
+    return lockedArray.indexOf(target) != -1;
+  }
 
   return that;
 };
