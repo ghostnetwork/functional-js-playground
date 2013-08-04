@@ -2,14 +2,14 @@
 immutableArray = function(array) {
   this.prototype = Function.prototype;
 
-  var lockedArray = wrap(array);
+  var mutableArray = wrap(array);
 
-  var that = { get length() {return lockedArray.length;} };
+  var that = { get length() {return mutableArray.length;} };
   that.prototype = immutableArray.prototype;
 
-  that.itemAtIndex = function(index) { return lockedArray[index]; };
+  that.itemAtIndex = function(index) { return mutableArray[index]; };
 
-  that.isEmpty = function() { return lockedArray.length == 0; };
+  that.isEmpty = function() { return mutableArray.length == 0; };
   that.isNotEmpty = function() { return that.isEmpty() == false; };
   that.isImmutable = function() { return isImmutable(that); }
 
@@ -28,17 +28,15 @@ immutableArray = function(array) {
       return wrapArray(array);;
   }
 
-  function wrapArray(array) { return array || []; }
-  function wrapImmutableArray(immutable) {
-    return wrapArray(immutable.mutableCopy());
-  }
+  function wrapArray(array) { return array || []; };
+  function wrapImmutableArray(immutable) { return wrapArray(immutable.mutableCopy()); };
 
   // cribbed from http://goo.gl/LOzO4
   function defaultForEach(fn, scope) {
     var i, len;
-    for (i = 0, len = lockedArray.length; i < len; ++i) {
-      if (i in lockedArray) {
-          fn.call(scope, lockedArray[i], i);
+    for (i = 0, len = mutableArray.length; i < len; ++i) {
+      if (i in mutableArray) {
+          fn.call(scope, mutableArray[i], i);
       }
     }
   };
@@ -47,7 +45,7 @@ immutableArray = function(array) {
   function defaultEvery(fun /*, thisp */) {
     var t, len, i, thisp;
 
-    t = Object(lockedArray);
+    t = Object(mutableArray);
     len = t.length >>> 0;
     if (typeof fun !== 'function') {
       throw new TypeError();
@@ -65,7 +63,7 @@ immutableArray = function(array) {
 
   // cribbed from http://goo.gl/SO15V
   function defaultSome(fun /*, thisp */) {
-    var t = Object(lockedArray);
+    var t = Object(mutableArray);
     var len = t.length >>> 0;
     if (typeof fun != "function")
       throw new TypeError();
@@ -81,26 +79,26 @@ immutableArray = function(array) {
   };
 
   function defaultContains(target) {
-    return lockedArray.indexOf(target) != -1;
+    return mutableArray.indexOf(target) != -1;
   }
 
   function defaultFirst() {
-    return that.isNotEmpty() ? lockedArray[0] : undefined;
+    return that.isNotEmpty() ? mutableArray[0] : undefined;
   }
 
   function defaultLast() {
-    return that.isNotEmpty() ? lockedArray[lockedArray.length - 1] : undefined;
+    return that.isNotEmpty() ? mutableArray[mutableArray.length - 1] : undefined;
   }
 
   function defaultMutableCopy() {
-    return that.isNotEmpty() ? lockedArray.slice(0) : undefined;
+    return that.isNotEmpty() ? mutableArray.slice(0) : undefined;
   }
 
   that.toString = function() { 
     var result = '';
     that.forEach(function(element, index) {
       result += element;
-      if (index < lockedArray.length - 1)
+      if (index < mutableArray.length - 1)
         result += ',';
     });
     return result;
@@ -108,53 +106,12 @@ immutableArray = function(array) {
 
   that.concat = function(other) {
     if (other == null || other == undefined) return that;
-    var array = lockedArray.concat(other);
+    var array = mutableArray.concat(other);
     return immutableArray(array);
   };
 
   // ...
   return that;
-};
-
-immutableArray.createFilledWith = function(times, thing) {
-  var array = [times];
-  for (var i = 0; i < times; i++) {
-    array[i] = thing;
-  };
-  return immutableArray(array);
-};
-
-/*
-Returns an immutableArray containing every other item from the source.
-*/
-immutableArray.createUsingEveryOtherFrom = function(source) {
-  var everyOther = immutableArray.makeEveryOther(2, source);
-  return everyOther();
-};
-
-/*
-Returns a function that returns an immutableArray containing every other N item
-from the source.
-*/
-immutableArray.makeEveryOther = function(n, source) {
-  return function(){
-    return everyOtherN(n, source)
-  };
-};
-
-/*
-Returns an immutableArray that contains every other N items from sourceArray
-*/
-var everyOtherN = function(n, sourceArray) {
-  var array = [];
-
-  sourceArray.forEach(function(element, index) {
-    if (index % n == 0) {
-      array.push(element);
-    };
-  })
-
-  return immutableArray(array);
 };
 
 var isImmutable = function(other) {

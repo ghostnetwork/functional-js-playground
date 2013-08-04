@@ -6,15 +6,15 @@ var util = require('util');
 require('../src/predicates');
 require('../src/immutableArray');
 
+require('./immutableArrayData');
+var data = immutableArrayData();
+
 describe('immutable', function(){
-  var array = ['a', 'b', 'c'];
-  var numbers = [1, 2, 3, 4, 5];
-  var letters = ['z', 'y', 'x'];
 
   describe('#immutableArray', function(){
     it('should ensure each instance of an immutableArray is unique', function(){
-      var hydrogen = immutableArray(numbers);
-      var oxygen = immutableArray(letters);
+      var hydrogen = immutableArray(data.numbers);
+      var oxygen = immutableArray(data.letters);
       assert(hydrogen.first() !== oxygen.first());
     });
 
@@ -29,29 +29,29 @@ describe('immutable', function(){
       it('should be empty when created without a provided array', function(){
         var lockedArray = immutableArray();
         assert(lockedArray != null);
-        checkArrayIsEmpty(lockedArray);
+        data.checkArrayIsEmpty(lockedArray);
       });
 
       it('should have an immutable copy of the array it was created with', function(){
-        var lockedArray = immutableArray(array);
+        var lockedArray = immutableArray(data.array);
         var length = lockedArray.length;
-        assert(length === array.length);
+        assert(length === data.array.length);
       });
 
       it('should return an empty array when given null', function(){
         var testArray = null;
         var lockedArray = immutableArray(testArray);
-        checkArrayIsEmpty(lockedArray);
+        data.checkArrayIsEmpty(lockedArray);
       });
 
       it('should return an empty array when given undefined', function(){
         var testArray;
         var lockedArray = immutableArray(testArray);
-        checkArrayIsEmpty(lockedArray);
+        data.checkArrayIsEmpty(lockedArray);
       });
 
       it('should be able to be created using an immutableArray', function(){
-        var lockedArray = createAggregatedLockedArray();
+        var lockedArray = data.createAggregatedLockedArray();
         var otherArray = immutableArray(lockedArray);
         assert(otherArray != null);
         assert(otherArray.length == lockedArray.length);
@@ -60,6 +60,16 @@ describe('immutable', function(){
           return element === lockedArray.itemAtIndex(index);
         });
         assert(hasSame);
+      });
+
+      it('should create a unique immutableArray when created using immutableArray', function(){
+        var lockedArray = immutableArray(data.array);
+        var otherArray = immutableArray(lockedArray);
+        assert(lockedArray !== otherArray);
+
+        var mutable = otherArray.mutableCopy();
+        mutable.concat(data.numbers);
+        assert(otherArray.length === lockedArray.length);
       });
     });
     
@@ -71,39 +81,39 @@ describe('immutable', function(){
       });
 
       it('should return the number of items in the provided array', function(){
-        var lockedArray = immutableArray(array);
+        var lockedArray = immutableArray(data.array);
         var length = lockedArray.length;
-        assert(length === array.length);
+        assert(length === data.array.length);
       });
     });
 
     describe('#itemAtIndex', function(){
       it('should return undefined when given an index less than 0', function(){
-        var lockedArray = immutableArray(array);
+        var lockedArray = immutableArray(data.array);
         var item = lockedArray.itemAtIndex(-1);
         assert(item === undefined);
       });
 
       it('should return undefined when given an index that is past the end of the array', function(){
-        var lockedArray = immutableArray(array);
-        var item = lockedArray.itemAtIndex(array.length);
+        var lockedArray = immutableArray(data.array);
+        var item = lockedArray.itemAtIndex(data.array.length);
         assert(item === undefined);
       });
 
       it('should return the first item in the array when given 0', function(){
-        var lockedArray = immutableArray(array);
-        checkItemAtIndexEqualsItemInArrayAtIndex(lockedArray, 0);
+        var lockedArray = immutableArray(data.array);
+        data.checkItemAtIndexEqualsItemInArrayAtIndex(lockedArray, 0);
       });
 
       it('should return the correct item when given a valid index', function(){
-        var lockedArray = immutableArray(array);
-        checkItemAtIndexEqualsItemInArrayAtIndex(lockedArray, 1);
+        var lockedArray = immutableArray(data.array);
+        data.checkItemAtIndexEqualsItemInArrayAtIndex(lockedArray, 1);
       });
 
       it('should return the last item in the array when given the last index', function(){
-        var lockedArray = immutableArray(array);
-        var index = array.length - 1;
-        checkItemAtIndexEqualsItemInArrayAtIndex(lockedArray, index);
+        var lockedArray = immutableArray(data.array);
+        var index = data.array.length - 1;
+        data.checkItemAtIndexEqualsItemInArrayAtIndex(lockedArray, index);
       });
     });
 
@@ -115,7 +125,7 @@ describe('immutable', function(){
       });
 
       it('should return false if the array is not empty', function(){
-        var lockedArray = immutableArray(array);
+        var lockedArray = immutableArray(data.array);
         var result = lockedArray.isEmpty();
         assert(result == false);
       });
@@ -129,7 +139,7 @@ describe('immutable', function(){
       });
 
       it('should return false if the array is not empty', function(){
-        var lockedArray = immutableArray(array);
+        var lockedArray = immutableArray(data.array);
         var result = lockedArray.isNotEmpty();
         assert(result);
       });
@@ -139,7 +149,7 @@ describe('immutable', function(){
       it('should throw an error when given a null action', function(){
         (function(){
           var action = null;
-          var lockedArray = immutableArray(array);
+          var lockedArray = immutableArray(data.array);
           lockedArray.forEach(action);
         }).should.throw();
       });
@@ -147,22 +157,22 @@ describe('immutable', function(){
       it('should throw an error when given an undefined action', function(){
         (function(){
           var action;
-          var lockedArray = immutableArray(array);
+          var lockedArray = immutableArray(data.array);
           lockedArray.forEach(action);
         }).should.throw();
       });
 
       it('should perform the action given to it', function(done){
-        var lockedArray = immutableArray(array);
+        var lockedArray = immutableArray(data.array);
         var counter = 0;
-        var action = function() { if (counter++ >= array.length - 1) done(); };
+        var action = function() { if (counter++ >= data.array.length - 1) done(); };
         lockedArray.forEach(action);
         // Test will timeout if action isn't called the expected number of times
       });
 
       it('should not allow me to alter the original array', function(){
-        var lockedArray = immutableArray(array);
-        var expectedLength = array.length;
+        var lockedArray = immutableArray(data.array);
+        var expectedLength = data.array.length;
 
         var action = function(element, index, theArray) {
           assert(theArray === undefined);
@@ -182,14 +192,14 @@ describe('immutable', function(){
       it('should return false if the test does not return true for all items', function(){
         var myArray = [12, 5, 8, 130, 44];
         var lockedArray = immutableArray(myArray);
-        var result = lockedArray.every(isBigEnough);
+        var result = lockedArray.every(data.isBigEnough);
         assert(result === false);
       });
 
       it('should return true if the test returns true for all items', function(){
         var myArray = [12, 54, 18, 130, 44];
         var lockedArray = immutableArray(myArray);
-        var result = lockedArray.every(isBigEnough);
+        var result = lockedArray.every(data.isBigEnough);
         assert(result);
       });
     });
@@ -198,14 +208,14 @@ describe('immutable', function(){
       it('should return false if the test did not pass for any of the items', function(){
         var myArray = [2, 5, 8, 1, 4];
         var lockedArray = immutableArray(myArray);
-        var result = lockedArray.some(isBigEnough);
+        var result = lockedArray.some(data.isBigEnough);
         assert(result === false);
       });
 
       it('should return true if the test passed for any of the items', function(){
         var myArray = [12, 5, 8, 1, 4];
         var lockedArray = immutableArray(myArray);
-        var result = lockedArray.some(isBigEnough);
+        var result = lockedArray.some(data.isBigEnough);
         assert(result);
       });
     });
@@ -225,22 +235,22 @@ describe('immutable', function(){
 
       it('should return false if the given target is null', function(){
         target = null;
-        checkDoesNotContain(target);
+        data.checkDoesNotContain(target);
       });
 
       it('should return false if the given target is undefined', function(){
         target = undefined;
-        checkDoesNotContain(target);
+        data.checkDoesNotContain(target);
       });
 
       it('should return true if the array does contain the given target', function(){
-        var lockedArray = immutableArray(array);
+        var lockedArray = immutableArray(data.array);
         var result = lockedArray.contains(target);
         assert(result);
       });
 
       it('should return false if the array does not contain the given target', function(){
-        var lockedArray = immutableArray(array);
+        var lockedArray = immutableArray(data.array);
         target = 'z';
         var result = lockedArray.contains(target);
         assert(result == false);
@@ -255,9 +265,9 @@ describe('immutable', function(){
       });
 
       it('should return the first item in the array', function(){
-        var lockedArray = immutableArray(array);
+        var lockedArray = immutableArray(data.array);
         var first = lockedArray.first();
-        var expectedItem = array[0];
+        var expectedItem = data.array[0];
         assert(first === expectedItem);
       });
     });
@@ -270,9 +280,9 @@ describe('immutable', function(){
       });
     
       it('should return the last item in the array', function(){
-        var lockedArray = immutableArray(array);
+        var lockedArray = immutableArray(data.array);
         var last = lockedArray.last();
-        var expectedItem = array[array.length - 1];
+        var expectedItem = data.array[data.array.length - 1];
         assert(last === expectedItem);
       });
     });
@@ -285,55 +295,17 @@ describe('immutable', function(){
       });
 
       it('should return a mutable copy of the immutable array', function(){
-        var lockedArray = immutableArray(array);
+        var lockedArray = immutableArray(data.array);
         var mutableCopy = lockedArray.mutableCopy();
         mutableCopy.push('aaa');
-        assert(mutableCopy.length > array.length);
+        assert(mutableCopy.length > data.array.length);
       });
 
       it('should not change the original array', function(){
-        var lockedArray = immutableArray(array);
+        var lockedArray = immutableArray(data.array);
         var mutableCopy = lockedArray.mutableCopy();
         mutableCopy.push('bbb');
-        assert(lockedArray.length == array.length);
-      });
-    });
-
-    describe('#createFilledWith', function(){
-      it('should create a new immutableArray that has the requested number of items', function(){
-        var thing = '.';
-        var times = 10;
-        var lockedArray = immutableArray.createFilledWith(times, thing);
-        assert(lockedArray != null);
-        assert(lockedArray.length == times);
-      });
-
-      it('should create a new immutableArray that is only filled with the given item', function(){
-        var thing = '-';
-        var times = 10;
-        var lockedArray = immutableArray.createFilledWith(thing, times);
-        var result = lockedArray.every(function(element) { return element === thing; });
-        assert(result);
-      });
-    });
-
-    describe('#createUsingEveryOtherFrom', function(){
-      it('should create a new immutableArray that is filled with every other item from the source array', function(){
-        var lockedArray = createAggregatedLockedArray();
-        var result = immutableArray.createUsingEveryOtherFrom(lockedArray);
-        var expectedNumItems = Math.round(lockedArray.length / 2);
-        assert(result.length == expectedNumItems);
-      });
-    });
-
-    describe('#makeEveryOther', function(){
-      it('should create a function that allows me to skip every third item', function(){
-        var lockedArray = createAggregatedLockedArray();
-        var n = 3;
-        var everyThird = immutableArray.makeEveryOther(n, lockedArray);
-        var result = everyThird();
-        var expectedNumItems = Math.round(lockedArray.length / 3);
-        assert(result.length == expectedNumItems);
+        assert(lockedArray.length == data.array.length);
       });
     });
 
@@ -349,7 +321,7 @@ describe('immutable', function(){
       });
 
       it('should return false when given an array', function(){
-        var result = immutableArray.isImmutable(array);
+        var result = immutableArray.isImmutable(data.array);
         assert(result == false);
       });
 
@@ -360,13 +332,13 @@ describe('immutable', function(){
       });
 
       it('should return true when given an immutableArray using prototype', function(){
-        var lockedArray = immutableArray(array);
+        var lockedArray = immutableArray(data.array);
         var result = immutableArray.isImmutable(lockedArray);
         assert(result);
       });
 
       it('should return true when given an immutableArray using instance', function(){
-        var lockedArray = immutableArray(array);
+        var lockedArray = immutableArray(data.array);
         var result = lockedArray.isImmutable();
         assert(result);
       });
@@ -374,49 +346,22 @@ describe('immutable', function(){
 
     describe('#concat', function(){
       it('should return the original immutableArray if given array is undefined', function(){
-        var lockedArray = immutableArray(numbers);
+        var lockedArray = immutableArray(data.numbers);
         var combinedArray = lockedArray.concat();
         assert(combinedArray.length == lockedArray.length);
       });
 
       it('should return the original immutableArray if given array is null', function(){
-        var lockedArray = immutableArray(numbers);
+        var lockedArray = immutableArray(data.numbers);
         var combinedArray = lockedArray.concat(null);
         assert(combinedArray.length == lockedArray.length);
       });
 
       it('should return an immutableArray that contains the items from the other array', function(){
-        var lockedArray = immutableArray(numbers);
-        var combinedArray = lockedArray.concat(letters);
-        assert(combinedArray.length == lockedArray.length + letters.length);
+        var lockedArray = immutableArray(data.numbers);
+        var combinedArray = lockedArray.concat(data.letters);
+        assert(combinedArray.length == lockedArray.length + data.letters.length);
       });
     });
   });
-
-  function checkArrayIsEmpty(lockedArray) {
-    var length = lockedArray.length;
-    assert(length === 0);
-  };
-
-  function checkItemAtIndexEqualsItemInArrayAtIndex(lockedArray, index) {
-    var item = lockedArray.itemAtIndex(index);
-    var expectedItem = array[index];
-    expectedItem.should.equal(item);
-  };
-
-  function isBigEnough(element, index, array) {
-    assert(array === undefined);
-    return (element >= 10);
-  };
-
-  function checkDoesNotContain(target) {
-    var lockedArray = immutableArray(array);
-    var result = lockedArray.contains(target);
-    assert(result == false);
-  };
-
-  function createAggregatedLockedArray() {
-    var sourceArray = array.concat(numbers).concat(letters);
-    return immutableArray(sourceArray);
-  }
 });
