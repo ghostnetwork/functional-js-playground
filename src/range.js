@@ -11,7 +11,7 @@ Range = function(start, end, mutable) {
   that.isValidFor = function(array) {
     return that.start >= 0 
         && that.end >= 0 
-        && that.end < array.length;
+        && that.end <= array.length;
   };
   that.isNotValidFor = function(array) { return that.isValidFor(array) == false; };
 

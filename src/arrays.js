@@ -1,16 +1,21 @@
-// var util = require('util');
 
 var _Arrays = function() { this.prototype = Function.prototype; };
 Arrays = new _Arrays();
 
 Arrays.firstItem = function(array) { 
-  return function() { 
-    return array[0]; }; 
+  return function() {
+    if (isImmutable(array))
+      return array.itemAtIndex(0);
+    return array[0]; 
+  }; 
 };
 
 Arrays.lastItem = function(array) { 
   return function() { 
-    return array[array.length - 1]; 
+    var lastIndex = array.length - 1;
+    if (isImmutable(array))
+      return array.itemAtIndex(lastIndex);
+    return array[lastIndex]; 
   }; 
 };
 
@@ -18,7 +23,7 @@ Arrays.rangeOfItems = function(array, range) {
   if (notExisty(array) || notExisty(range)) return undefined;
   if (array.length == 0) return [];
   if (range.isNotValidFor(array)) return [];
-  
+
   var result = new Array(range.length);
   var counter = 0;
 
@@ -28,5 +33,8 @@ Arrays.rangeOfItems = function(array, range) {
     };
   });
 
-  return result;
+  return immutableArray(result);
 };
+
+var isImmutable = function(array) { return immutableArray.isImmutable(array); }
+Arrays.isImmutable = isImmutable;
