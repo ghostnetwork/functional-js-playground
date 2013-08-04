@@ -1,7 +1,11 @@
 'use strict';
 
 var assert = require('assert');
+var util = require('util');
+
+require('../src/predicates');
 require('../src/arrays');
+require('../src/range');
 
 require('./immutableArrayData');
 var data = immutableArrayData();
@@ -46,6 +50,57 @@ describe('arrays', function(){
 
       var expected = data.array[data.array.length - 1];
       assert(lastObj === expected);
+    });
+  });
+
+  describe('#rangeOfItems', function(){
+    it('should return undefined if either array or range are notExisty', function(){
+      var result = Arrays.rangeOfItems();
+      assert(result == undefined);
+
+      result = Arrays.rangeOfItems(null);
+      assert(result == undefined);
+
+      result = Arrays.rangeOfItems(undefined, null);
+      assert(result == undefined);
+
+      result = Arrays.rangeOfItems(undefined, undefined);
+      assert(result == undefined);
+
+      result = Arrays.rangeOfItems(null, null);
+      assert(result == undefined);
+    });
+
+    it('should return an empty array if the given array is empty', function(){
+      var range = Range(0, 5);
+      var result = Arrays.rangeOfItems(data.empty, range);
+      assert(result.length == 0);
+    });
+
+    it('should return an array containing the items in the expected range from the given array', function(){
+      var range = Range(0, 3);
+      var result = Arrays.rangeOfItems(data.numbers, range);
+      assert(result.length > 0);
+      assert(result.length == range.length);
+      assert(result[0] === data.numbers[range.start]);
+    });
+
+    it('should return an empty array if the range is not within the given array', function(){
+      var rangeStartTooLow = Range(-1, 3);
+      var result = Arrays.rangeOfItems(data.numbers, rangeStartTooLow);
+      assert(result.length == 0);
+
+      var rangeStartTooHigh = Range(5, 10);
+      result = Arrays.rangeOfItems(data.letters, rangeStartTooHigh);
+      assert(result.length == 0);
+
+      var rangeEndTooLow = Range(-1, 4);
+      result = Arrays.rangeOfItems(data.letters, rangeEndTooLow);
+      assert(result.length == 0);
+
+      var rangeEndTooHigh = Range(5, 100);
+      result = Arrays.rangeOfItems(data.letters, rangeEndTooLow);
+      assert(result.length == 0);
     });
   });
 });

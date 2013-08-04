@@ -5,8 +5,9 @@ immutableArrayData = function() {
   that = Function.prototype;
 
   that.array = ['a', 'b', 'c'];
-  that.numbers = [1, 2, 3, 4, 5];
+  that.empty = [];
   that.letters = ['z', 'y', 'x'];
+  that.numbers = [1, 2, 3, 4, 5];
 
   that.createAggregatedLockedArray = function() {
     var sourceArray = that.array.concat(that.numbers).concat(that.letters);

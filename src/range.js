@@ -5,7 +5,15 @@ Range = function(start, end, mutable) {
   that.equals = equals;
   that.toString = toString;
 
-  that.createMutableCopy = function() { return Range(that.start, that, end, true); };
+  that.createMutableCopy = function() { return Range(that.start, that.end, true); };
+  that.isWithin = function(index) { return index >= that.start && index < that.end; };
+
+  that.isValidFor = function(array) {
+    return that.start >= 0 
+        && that.end >= 0 
+        && that.end < array.length;
+  };
+  that.isNotValidFor = function(array) { return that.isValidFor(array) == false; };
 
   return that;
 };
@@ -15,6 +23,11 @@ Range.clone = function(otherRange) {
   return Range(otherRange.start, otherRange.end);
 };
 
+EmptyRange = function() { 
+  var that = Range(0, 0);
+  return that;
+};
+
 var createRange = function(start, end, mutable) { 
   var _start = start;
   var _end = end;
@@ -22,13 +35,19 @@ var createRange = function(start, end, mutable) {
   var range;
 
   if (mutable) {
-    range = { start: _start, end: _end, isMutable: true };
+    range = { 
+      start: _start, 
+      end: _end, 
+      isMutable: true,
+      get length() {  return rangeLength(range.start, range.end); }
+    };
   }
   else {
     range = {
       get start() {return _start;},
       get end() {return _end;},
-      get isMutable() {return false;}
+      get isMutable() {return false;},
+      get length() { return rangeLength(start, end); }
     };
   }
 
@@ -36,7 +55,7 @@ var createRange = function(start, end, mutable) {
 };
 
 var createMutableCopy = function(sourceRange) {
-  return { start: sourceRange.start, end: sourceRange.end };
+  return createRange(sourceRange.start, sourceRange.end, true);
 };
 
 var equals = function(otherRange) {
@@ -46,4 +65,8 @@ var equals = function(otherRange) {
 
 var toString = function() {
   return 'start: ' + this.start + ', end: ' + this.end;
+};
+
+var rangeLength = function(start, end) {
+  return end - start;
 };
