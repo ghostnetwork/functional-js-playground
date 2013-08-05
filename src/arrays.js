@@ -1,6 +1,5 @@
 
-var _Arrays = function() { this.prototype = Function.prototype; };
-Arrays = new _Arrays();
+Arrays = function() { this.prototype = Array.prototype; };
 
 Arrays.firstItem = function(array) { 
   return function() {
@@ -20,20 +19,22 @@ Arrays.lastItem = function(array) {
 };
 
 Arrays.rangeOfItems = function(array, range) {
-  if (notExisty(array) || notExisty(range)) return undefined;
-  if (array.length == 0) return [];
-  if (range.isNotValidFor(array)) return [];
+  return function() {
+    if (notExisty(array) || notExisty(range)) return undefined;
+    if (array.length == 0) return [];
+    if (range.isNotValidFor(array)) return [];
 
-  var result = new Array(range.length);
-  var counter = 0;
+    var result = new Array(range.length);
+    var counter = 0;
 
-  array.forEach(function(element, index) {
-    if (range.isWithin(index)) {
-      result[counter++] = element;
-    };
-  });
+    array.forEach(function(element, index) {
+      if (range.isWithin(index)) {
+        result[counter++] = element;
+      };
+    });
 
-  return immutableArray(result);
+    return immutableArray(result);
+  }
 };
 
 var isImmutable = function(array) { return immutableArray.isImmutable(array); }

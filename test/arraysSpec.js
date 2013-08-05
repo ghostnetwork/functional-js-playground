@@ -70,31 +70,31 @@ describe('arrays', function(){
 
   describe('#rangeOfItems', function(){
     it('should return undefined if either array or range are notExisty', function(){
-      var result = Arrays.rangeOfItems();
+      var result = Arrays.rangeOfItems()();
       assert(result == undefined);
 
-      result = Arrays.rangeOfItems(null);
+      result = Arrays.rangeOfItems(null)();
       assert(result == undefined);
 
-      result = Arrays.rangeOfItems(undefined, null);
+      result = Arrays.rangeOfItems(undefined, null)();
       assert(result == undefined);
 
-      result = Arrays.rangeOfItems(undefined, undefined);
+      result = Arrays.rangeOfItems(undefined, undefined)();
       assert(result == undefined);
 
-      result = Arrays.rangeOfItems(null, null);
+      result = Arrays.rangeOfItems(null, null)();
       assert(result == undefined);
     });
 
     it('should return an empty array if the given array is empty', function(){
       var range = Range(0, 5);
-      var result = Arrays.rangeOfItems(data.empty, range);
+      var result = Arrays.rangeOfItems(data.empty, range)();
       assert(result.length == 0);
     });
 
     it('should return an array containing the items in the expected range from the given array', function(){
       var range = Range(0, 3);
-      var lockedArray = Arrays.rangeOfItems(data.numbers, range);
+      var lockedArray = Arrays.rangeOfItems(data.numbers, range)();
       assert(lockedArray.length > 0);
       assert(lockedArray.length == range.length);
       assert(lockedArray.itemAtIndex(0) === data.numbers[range.start]);
@@ -121,8 +121,31 @@ describe('arrays', function(){
     it('should work when given an immutableArray', function(){
       var lockedArray = data.createAggregatedLockedArray();
       var range = Range(4, 11);
-      var rangeArray = Arrays.rangeOfItems(lockedArray, range);
+      var rangeArray = Arrays.rangeOfItems(lockedArray, range)();
       assert(lockedArray.length > 0);
+    });
+  });
+
+  describe('#isImmutable', function(){
+    it('should return false if the given array is undefined', function(){
+      var result = Arrays.isImmutable();
+      assert(result == false);
+    });
+
+    it('should return false if the given array is null', function(){
+      var result = Arrays.isImmutable(null);
+      assert(result == false);
+    });
+
+    it('should return false if the given array is not an immutableArray', function(){
+      var result = Arrays.isImmutable(data.letters);
+      assert(result == false);
+    });
+
+    it('should return true if the given array is an immutableArray', function(){
+      var lockedArray = data.createAggregatedLockedArray();
+      var result = Arrays.isImmutable(lockedArray);
+      assert(result);
     });
   });
 });

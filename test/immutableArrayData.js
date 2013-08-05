@@ -2,7 +2,7 @@ var assert = require('assert');
 var should = require('should');
 
 immutableArrayData = function() {
-  that = Function.prototype;
+  that = {};
 
   that.array = ['a', 'b', 'c'];
   that.empty = [];
