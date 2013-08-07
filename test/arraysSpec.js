@@ -148,4 +148,35 @@ describe('arrays', function(){
       assert(result);
     });
   });
+
+  describe('#isNotImmutable', function(){
+    it('should return true if given undefined', function(){
+      var result = Arrays.isNotImmutable();
+      assert(result);
+    });
+
+    it('should return true if given null', function(){
+      var result = Arrays.isNotImmutable(null);
+      assert(result);
+    });
+
+    it('should return true if given a mutable array', function(){
+      var result = Arrays.isNotImmutable(data.letters);
+      assert(result);
+    });
+
+    it('should return false if given an immutableArray', function(){
+      var lockedArray = immutableArray(data.letters);
+      var result = Arrays.isNotImmutable(lockedArray);
+      assert(result === false);
+    });
+  });
+
+  describe('#shuffle', function(){
+    it('should not lose anything when shuffling', function(){
+      var list = [1, 2, 3, 4, 5];
+      Arrays.shuffle(list);
+      assert(list.length > 0);
+    });
+  });
 });

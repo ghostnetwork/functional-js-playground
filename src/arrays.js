@@ -37,5 +37,25 @@ Arrays.rangeOfItems = function(array, range) {
   }
 };
 
-var isImmutable = function(array) { return immutableArray.isImmutable(array); }
+Arrays.shuffle = function(array) {
+  var mutable = isImmutable(array)
+    , counter = this.length
+    , temp
+    , index;
+
+  while (counter) {
+    index = Math.floor(Math.random() * counter--);
+
+    temp = this[counter];
+    this[counter] = this[index];
+    this[index] = temp;
+  }
+
+  return this;
+};
+
+var isImmutable = function(array) { return immutableArray.isImmutable(array); };
 Arrays.isImmutable = isImmutable;
+
+var isNotImmutable = function(array) { return isImmutable(array) === false; };
+Arrays.isNotImmutable = isNotImmutable;

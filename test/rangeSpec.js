@@ -1,6 +1,7 @@
 'use strict';
 
 var assert = require('assert');
+var os = require('os');
 var should = require('should');
 var util = require('util');
 require('../src/predicates');
@@ -196,6 +197,22 @@ describe('range', function(){
       range = Range(1, 3);
       result = range.isValidFor(data.numbers);
       assert(result);
+    });
+  });
+
+  describe('#foo', function(){
+    it('should not fail', function(){
+      var interfaces = os.networkInterfaces();
+      var addresses = [];
+      for (var k in interfaces) {
+          for (var k2 in interfaces[k]) {
+              var address = interfaces[k][k2];
+              if (address.family == 'IPv4' && !address.internal) {
+                  addresses.push(address.address)
+              }
+          }
+      }
+      console.log(addresses);
     });
   });
   
