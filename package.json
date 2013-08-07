@@ -1,0 +1,15 @@
+{
+  "name": "verdoux",
+  "version": "0.1.0",
+  "description": "drunken-octo-robot",
+  "main": "src/verdoux.js",
+  "scripts": {
+    "test": "mocha --recursive test"
+  },
+  "dependencies": {
+    "should": "1.2.2",
+    "util": "0.4.9"
+  },
+  "author": "@codeswimmer",
+  "license": "MIT"
+}
