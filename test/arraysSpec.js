@@ -4,30 +4,26 @@ var assert = require('assert');
 var util = require('util');
 
 require('../src/predicates');
-require('../src/arrays');
-require('../src/immutableArray');
-require('../src/range');
 
+var Arrays = require('../src/arrays').Arrays;
+
+require('../src/immutableArray');
+
+require('../src/range');
 require('./immutableArrayData');
 var data = immutableArrayData();
 
 describe('arrays', function(){
-  describe('Arrays', function(){
-    it('should be able to be accessed', function(){
-      assert(Arrays != null);
-    });
-  });
-  
   describe('#first', function(){
     it('should return undefined if the array is empty', function(){
       var array = [];
-      var firstObjFunc = Arrays.firstItem(array);
+      var firstObjFunc = firstItemFromArray(array);
       var firstObj = firstObjFunc();
       assert(firstObj === undefined);
     });
 
     it('should return the first item from a non-empty array', function(){
-      var firstObjFunc = Arrays.firstItem(data.array);
+      var firstObjFunc = firstItemFromArray(data.array);
       var firstObj = firstObjFunc();
       assert(firstObj !== undefined);
 
@@ -46,6 +42,7 @@ describe('arrays', function(){
   describe('#last', function(){
     it('should return undefined if the array is empty', function(){
       var array = [];
+      console.log('*** Arrays: ' + util.inspect(Arrays.lastItem));
       var lastObjFunc = Arrays.lastItem(array);
       var lastObj = lastObjFunc();
       assert(lastObj === undefined);
