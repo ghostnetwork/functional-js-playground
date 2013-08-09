@@ -22,6 +22,7 @@
             console.log('_.VERSION: ' + _.VERSION);
             doArrays();
             doExperimental();
+            doTools();
           });
         }
       };
@@ -43,6 +44,14 @@
         console.log('experimental.bar(): ' + experimental.bar());
         console.log('experimental.canAccessUnderscore(): ' + experimental.canAccessUnderscore());
       };
+
+      function doTools() {
+        var somethingUndefined;
+        var result = Tools.inspect(somethingUndefined);
+        console.log('Tools.inspect(somethingUndefined): ' + result);
+        result = Tools.inspect(new Date());
+        console.log('Tools.inspect(Date): ' + result);
+      }
     </script>
   </head>
 

@@ -1,32 +1,8 @@
 'use strict';
 
+if (isNotRunningInBrowser) { var _ = require('underscore'); }
+
 (function(exports){
-
-  function isDate(d) {
-    if (d instanceof Date) return true;
-    if (typeof d !== 'object') return false;
-    var properties = Date.prototype && Object.getOwnPropertyNames(Date.prototype);
-    var proto = d.__proto__ && Object.getOwnPropertyNames(d.__proto__);
-    return JSON.stringify(proto) === JSON.stringify(properties);
-  }
-
-  function isArray(ar) {
-    return ar instanceof Array ||
-           Array.isArray(ar) ||
-           (ar && ar !== Object.prototype && isArray(ar.__proto__));
-  }
-
-  function isRegExp(re) {
-    var s = '' + re;
-    return re instanceof RegExp || // easy case
-           // duck-type for context-switching evalcx case
-           typeof(re) === 'function' &&
-           re.constructor.name === 'RegExp' &&
-           re.compile &&
-           re.test &&
-           re.exec &&
-           s.match(/^\/.*\/[gim]{0,3}$/);
-  }
 
   var inspect = function(obj, showHidden, depth, colors) {
     var seen = [];
@@ -109,7 +85,7 @@
 
       // Functions without properties can be shortcutted.
       if (typeof value === 'function' && keys.length === 0) {
-        if (isRegExp(value)) {
+        if (_.isRegExp(value)) {
           return stylize('' + value, 'regexp');
         } else {
           var name = value.name ? ': ' + value.name : '';
@@ -118,13 +94,13 @@
       }
 
       // Dates without properties can be shortcutted
-      if (isDate(value) && keys.length === 0) {
+      if (_.isDate(value) && keys.length === 0) {
         return stylize(value.toUTCString(), 'date');
       }
 
       var base, type, braces;
       // Determine the object type
-      if (isArray(value)) {
+      if (_.isArray(value)) {
         type = 'Array';
         braces = ['[', ']'];
       } else {
@@ -135,13 +111,13 @@
       // Make functions say that they are functions
       if (typeof value === 'function') {
         var n = value.name ? ': ' + value.name : '';
-        base = (isRegExp(value)) ? ' ' + value : ' [Function' + n + ']';
+        base = (_.isRegExp(value)) ? ' ' + value : ' [Function' + n + ']';
       } else {
         base = '';
       }
 
       // Make dates with properties first say the date
-      if (isDate(value)) {
+      if (_.isDate(value)) {
         base = ' ' + value.toUTCString();
       }
 
@@ -150,7 +126,7 @@
       }
 
       if (recurseTimes < 0) {
-        if (isRegExp(value)) {
+        if (_.isRegExp(value)) {
           return stylize('' + value, 'regexp');
         } else {
           return stylize('[Object]', 'special');
@@ -185,7 +161,7 @@
               str = format(value[key], recurseTimes - 1);
             }
             if (str.indexOf('\n') > -1) {
-              if (isArray(value)) {
+              if (_.isArray(value)) {
                 str = str.split('\n').map(function(line) {
                   return '  ' + line;
                 }).join('\n').substr(2);

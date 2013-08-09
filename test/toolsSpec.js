@@ -1,8 +1,8 @@
 'use strict';
 
+require('../src/verdoux');
 var assert = require('assert');
 var Tools = require('../src/tools');
-require('../src/predicates');
 
 describe('Tools', function(){
   describe('#inspect', function(){
