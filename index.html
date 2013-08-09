@@ -10,6 +10,7 @@
     <script src="src/predicates.js"></script>
     <script src="src/tools.js"></script>
 
+    <script src="src/range.js"></script>
     <script src="src/immutableArray.js"></script>
     <script src="src/arrays.js"></script>
     <script src="src/experimental.js"></script>
@@ -23,6 +24,7 @@
             doArrays();
             doExperimental();
             doTools();
+            doRange();
           });
         }
       };
@@ -51,6 +53,12 @@
         console.log('Tools.inspect(somethingUndefined): ' + result);
         result = Tools.inspect(new Date());
         console.log('Tools.inspect(Date): ' + result);
+      }
+
+      function doRange() {
+        var range = Range.create(5, 10);
+        console.log('range.start: ' + range.start);
+        console.log('  range.end: ' + range.end);
       }
     </script>
   </head>

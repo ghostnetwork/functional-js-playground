@@ -4,8 +4,9 @@ var assert = require('assert');
 var os = require('os');
 var should = require('should');
 var util = require('util');
+
 require('../src/predicates');
-require('../src/range');
+var Range = require('../src/range');
 
 require('./immutableArrayData');
 var data = immutableArrayData();
@@ -18,11 +19,11 @@ describe('range', function(){
     , emptyRange;
 
   beforeEach(function(){
-    sourceRange = Range(0, 10);
-    sameRange = Range(0, 10);
-    lowerBoundDiffRange = Range(5, 10);
-    upperBoundDiffRange = Range(0, 5);
-    emptyRange = EmptyRange();
+    sourceRange = Range.create(0, 10);
+    sameRange = Range.create(0, 10);
+    lowerBoundDiffRange = Range.create(5, 10);
+    upperBoundDiffRange = Range.create(0, 5);
+    emptyRange = Range.EmptyRange();
   });
 
   it('should be able to be accessed', function(){
@@ -33,7 +34,7 @@ describe('range', function(){
     it('should return an object that encapsulates the given start and end values', function(){
       var start = 0;
       var end = 10;
-      var range = Range(start, end);
+      var range = Range.create(start, end);
       assert(range.start === start);
       assert(range.end === end);
     });
@@ -54,7 +55,7 @@ describe('range', function(){
       var start = 5, end = 10;
       var expected = end - start;
       
-      var range = Range(start, end);
+      var range = Range.create(start, end);
       assert(range.length == expected);
     });
   });
@@ -166,7 +167,7 @@ describe('range', function(){
     });
 
     it('should return false if range is not valid (start too low) for the given array', function(){
-      var range = Range(-1, 3);
+      var range = Range.create(-1, 3);
       var result = range.isValidFor(data.numbers);
       assert(result == false);
     });
@@ -178,23 +179,23 @@ describe('range', function(){
     });
 
     it('should return false if range is not valid (end too low) for the given array', function(){
-      var endTooLow = Range(0, -1);
+      var endTooLow = Range.create(0, -1);
       var result = endTooLow.isValidFor(data.numbers);
       assert(result == false);
     });
 
     it('should return false if range is not valid (end too high) for the given array', function(){
-      var endTooHigh = Range(0, 100);
+      var endTooHigh = Range.create(0, 100);
       var result = endTooHigh.isValidFor(data.numbers);
       assert(result == false);
     });
 
     it('should return true if range is valid for the given array', function(){
-      var range = Range(0, 4);
+      var range = Range.create(0, 4);
       var result = range.isValidFor(data.numbers);
       assert(result);
 
-      range = Range(1, 3);
+      range = Range.create(1, 3);
       result = range.isValidFor(data.numbers);
       assert(result);
     });
