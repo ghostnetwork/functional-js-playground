@@ -1,5 +1,9 @@
 'use strict';
 
+if (isNotRunningInBrowser) { 
+  var ImmutableArray = require('./immutableArray');
+}
+
 (function(exports){
 
   exports.create = function() { 

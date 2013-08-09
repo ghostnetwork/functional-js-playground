@@ -9,8 +9,8 @@ require('./immutableArrayData');
 var data = immutableArrayData();
 
 var Arrays = require('../src/arrays');
-require('../src/immutableArray');
-require('../src/range');
+var ImmutableArray = require('../src/immutableArray');
+var Range = require('../src/range');
 
 describe('arrays', function(){
   describe('Arrays', function(){
@@ -88,13 +88,13 @@ describe('arrays', function(){
     });
 
     it('should return an empty array if the given array is empty', function(){
-      var range = Range(0, 5);
+      var range = Range.create(0, 5);
       var result = Arrays.rangeOfItems(data.empty, range)();
       assert(result.length == 0);
     });
 
     it('should return an array containing the items in the expected range from the given array', function(){
-      var range = Range(0, 3);
+      var range = Range.create(0, 3);
       var lockedArray = Arrays.rangeOfItems(data.numbers, range)();
       assert(lockedArray.length > 0);
       assert(lockedArray.length == range.length);
@@ -102,26 +102,26 @@ describe('arrays', function(){
     });
 
     it('should return an empty array if the range is not within the given array', function(){
-      var rangeStartTooLow = Range(-1, 3);
+      var rangeStartTooLow = Range.create(-1, 3);
       var result = Arrays.rangeOfItems(data.numbers, rangeStartTooLow);
       assert(result.length == 0);
 
-      var rangeStartTooHigh = Range(5, 10);
+      var rangeStartTooHigh = Range.create(5, 10);
       result = Arrays.rangeOfItems(data.letters, rangeStartTooHigh);
       assert(result.length == 0);
 
-      var rangeEndTooLow = Range(-1, 4);
+      var rangeEndTooLow = Range.create(-1, 4);
       result = Arrays.rangeOfItems(data.letters, rangeEndTooLow);
       assert(result.length == 0);
 
-      var rangeEndTooHigh = Range(5, 100);
+      var rangeEndTooHigh = Range.create(5, 100);
       result = Arrays.rangeOfItems(data.letters, rangeEndTooLow);
       assert(result.length == 0);
     });
 
     it('should work when given an immutableArray', function(){
       var lockedArray = data.createAggregatedLockedArray();
-      var range = Range(4, 11);
+      var range = Range.create(4, 11);
       var rangeArray = Arrays.rangeOfItems(lockedArray, range)();
       assert(lockedArray.length > 0);
     });
