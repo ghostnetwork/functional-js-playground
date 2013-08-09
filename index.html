@@ -6,15 +6,16 @@
     <meta charset='utf-8'/>
     <!-- <link rel="stylesheet" href="main.css"></link> -->
     
-    <script src="src/verdoux.js"></script>
     <script src="src/predicates.js"></script>
+    <script src="src/experimental.js"></script>
 
     <script type="text/javascript">
       function configureUI() {
         var testButton = document.getElementById('testButton');
         if (existy(testButton)) {
           testButton.addEventListener('click', function(event){
-            console.log('run tests (TBD)...');
+            var experimental = Experimental.create();
+            console.log('experimental.bar(): ' + experimental.bar());
           });
         }
       }
@@ -28,3 +29,7 @@
     </p>
   </body>
 </html>
+    <!-- 
+    <script src="lib/require.js"></script>
+    <script src="src/verdoux.js"></script> 
+  -->
