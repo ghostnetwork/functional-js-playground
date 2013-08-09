@@ -1,61 +1,74 @@
+'use strict';
 
-Arrays = function() { this.prototype = Array.prototype; };
+(function(exports){
 
-Arrays.firstItem = function(array) { 
-  return function() {
-    if (isImmutable(array))
-      return array.itemAtIndex(0);
-    return array[0]; 
-  }; 
-};
+  exports.create = function() { 
+    this.prototype = Array.prototype;
+    var that = {};
+    return that;
+  };
+  
+  var firstItem = function(array){
+    return function() {
+      if (isImmutable(array))
+        return array.itemAtIndex(0);
+      return array[0]; 
+    };
+  };
 
-Arrays.lastItem = function(array) { 
-  return function() { 
-    var lastIndex = array.length - 1;
-    if (isImmutable(array))
-      return array.itemAtIndex(lastIndex);
-    return array[lastIndex]; 
-  }; 
-};
+  var lastItem = function(array) { 
+    return function() { 
+      var lastIndex = array.length - 1;
+      if (isImmutable(array))
+        return array.itemAtIndex(lastIndex);
+      return array[lastIndex]; 
+    }; 
+  };
 
-Arrays.rangeOfItems = function(array, range) {
-  return function() {
-    if (notExisty(array) || notExisty(range)) return undefined;
-    if (array.length == 0) return [];
-    if (range.isNotValidFor(array)) return [];
+  var rangeOfItems = function(array, range) {
+    return function() {
+      if (notExisty(array) || notExisty(range)) return undefined;
+      if (array.length == 0) return [];
+      if (range.isNotValidFor(array)) return [];
 
-    var result = new Array(range.length);
-    var counter = 0;
+      var result = new Array(range.length);
+      var counter = 0;
 
-    array.forEach(function(element, index) {
-      if (range.isWithin(index)) {
-        result[counter++] = element;
-      };
-    });
+      array.forEach(function(element, index) {
+        if (range.isWithin(index)) {
+          result[counter++] = element;
+        };
+      });
 
-    return immutableArray(result);
-  }
-};
+      return ImmutableArray.create(result);
+    }
+  };
 
-Arrays.shuffle = function(array) {
-  var mutable = isImmutable(array)
-    , counter = this.length
-    , temp
-    , index;
+  var shuffle = function(array) {
+    var mutable = isImmutable(array)
+      , counter = this.length
+      , temp
+      , index;
 
-  while (counter) {
-    index = Math.floor(Math.random() * counter--);
+    while (counter) {
+      index = Math.floor(Math.random() * counter--);
 
-    temp = this[counter];
-    this[counter] = this[index];
-    this[index] = temp;
-  }
+      temp = this[counter];
+      this[counter] = this[index];
+      this[index] = temp;
+    }
 
-  return this;
-};
+    return this;
+  };
 
-var isImmutable = function(array) { return immutableArray.isImmutable(array); };
-Arrays.isImmutable = isImmutable;
+  var isImmutable = function(array) { return ImmutableArray.isImmutable(array); };
+  var isNotImmutable = function(array) { return isImmutable(array) === false; };
 
-var isNotImmutable = function(array) { return isImmutable(array) === false; };
-Arrays.isNotImmutable = isNotImmutable;
+  exports.firstItem = firstItem;
+  exports.lastItem = lastItem;
+  exports.rangeOfItems = rangeOfItems;
+  exports.shuffle = shuffle;
+  exports.isImmutable = isImmutable;
+  exports.isNotImmutable = isNotImmutable;
+
+})(typeof exports === 'undefined'? this['Arrays']={}: exports);

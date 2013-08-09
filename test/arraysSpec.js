@@ -4,12 +4,13 @@ var assert = require('assert');
 var util = require('util');
 
 require('../src/predicates');
-require('../src/arrays');
-require('../src/immutableArray');
-require('../src/range');
 
 require('./immutableArrayData');
 var data = immutableArrayData();
+
+var Arrays = require('../src/arrays');
+require('../src/immutableArray');
+require('../src/range');
 
 describe('arrays', function(){
   describe('Arrays', function(){
@@ -166,7 +167,7 @@ describe('arrays', function(){
     });
 
     it('should return false if given an immutableArray', function(){
-      var lockedArray = immutableArray(data.letters);
+      var lockedArray = ImmutableArray.create(data.letters);
       var result = Arrays.isNotImmutable(lockedArray);
       assert(result === false);
     });

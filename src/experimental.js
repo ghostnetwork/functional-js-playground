@@ -7,7 +7,6 @@
   exports.create = function() { 
     this.prototype = Function.prototype;
 
-    // what 
     var that = {};
     that.bar = function() { return 'i am Experimental.bar'}
 

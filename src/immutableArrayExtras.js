@@ -1,36 +1,37 @@
+ImmutableArray = require('../src/immutableArray');
 
 /*
-Returns an immutableArray filled with the given thing, the given
+Returns an ImmutableArray filled with the given thing, the given
 number of times.
 */
-immutableArray.createFilledWith = function(times, thing) {
+ImmutableArray.createFilledWith = function(times, thing) {
   var array = [times];
   for (var i = 0; i < times; i++) {
     array[i] = thing;
   };
-  return immutableArray(array);
+  return ImmutableArray.create(array);
 };
 
 /*
-Returns an immutableArray containing every other item from the source.
+Returns an ImmutableArray containing every other item from the source.
 */
-immutableArray.createUsingEveryOtherFrom = function(source) {
-  var everyOther = immutableArray.makeEveryOther(2, source);
+ImmutableArray.createUsingEveryOtherFrom = function(source) {
+  var everyOther = ImmutableArray.makeEveryOther(2, source);
   return everyOther();
 };
 
 /*
-Returns a function that returns a function for creating an immutableArray 
+Returns a function that returns a function for creating an ImmutableArray 
 containing every other N items from the source.
 */
-immutableArray.makeEveryOther = function(n, source) {
+ImmutableArray.makeEveryOther = function(n, source) {
   return function(){
     return everyOtherN(n, source)
   };
 };
 
 /*
-Returns an immutableArray that contains every other N items from sourceArray
+Returns an ImmutableArray that contains every other N items from sourceArray
 */
 var everyOtherN = function(n, sourceArray) {
   var array = [];
@@ -41,5 +42,5 @@ var everyOtherN = function(n, sourceArray) {
     };
   })
 
-  return immutableArray(array);
+  return ImmutableArray.create(array);
 };

@@ -7,6 +7,10 @@
     <!-- <link rel="stylesheet" href="main.css"></link> -->
     
     <script src="src/predicates.js"></script>
+    <script src="src/tools.js"></script>
+
+    <script src="src/immutableArray.js"></script>
+    <script src="src/arrays.js"></script>
     <script src="src/experimental.js"></script>
 
     <script type="text/javascript">
@@ -14,11 +18,30 @@
         var testButton = document.getElementById('testButton');
         if (existy(testButton)) {
           testButton.addEventListener('click', function(event){
-            var experimental = Experimental.create();
-            console.log('experimental.bar(): ' + experimental.bar());
+            doArrays();
+            // doExperimental();
           });
         }
+      };
+
+      function doArrays() {
+        var experimental = Experimental.create();
+        var arrays = Arrays.create();
+        console.log('experimental: ' + experimental);
+        var func = Arrays.firstItem(['a', 'b', 'c']);
+        var value = func();
+        console.log('arrays: ' + Tools.inspect(value));
       }
+
+      function doImmutableArray() {
+        var lockedArray = ImmutableArray.create(['a', 'b', 'c']);
+        console.log('lockedArray: ' + Tools.inspect(lockedArray));
+      }
+
+      function doExperimental() {
+        var experimental = Experimental.create();
+        console.log('experimental.bar(): ' + experimental.bar());
+      };
     </script>
   </head>
 
@@ -30,6 +53,4 @@
   </body>
 </html>
     <!-- 
-    <script src="lib/require.js"></script>
-    <script src="src/verdoux.js"></script> 
   -->

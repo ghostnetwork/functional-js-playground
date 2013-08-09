@@ -1,5 +1,6 @@
 var assert = require('assert');
 var should = require('should');
+var ImmutableArray = require('../src/immutableArray');
 
 immutableArrayData = function() {
   that = {};
@@ -11,7 +12,7 @@ immutableArrayData = function() {
 
   that.createAggregatedLockedArray = function() {
     var sourceArray = that.array.concat(that.numbers).concat(that.letters);
-    return immutableArray(sourceArray);
+    return ImmutableArray.create(sourceArray);
   }
 
   that.checkArrayIsEmpty = function(lockedArray) {
@@ -31,7 +32,7 @@ immutableArrayData = function() {
   };
 
   that.checkDoesNotContain = function(target) {
-    var lockedArray = immutableArray(that.array);
+    var lockedArray = ImmutableArray.create(that.array);
     var result = lockedArray.contains(target);
     assert(result == false);
   };
