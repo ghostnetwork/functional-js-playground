@@ -108,4 +108,86 @@ describe('predicates', function(){
       }).should.throw();
     });
   });
+
+  describe('#doWhenTruthy', function(){
+    it('should return undefined when given notExisty condition', function(){
+      var condition;
+      var result = doWhenTruthy(condition, function(){});
+      assert(notExisty(result));
+
+      condition = null;
+      result = doWhenTruthy(condition, function(){});
+      assert(notExisty(result));
+    });
+
+    it('should throw error if action is notExisty', function(){
+      (function(){
+        var condition = true;
+        var action;
+        var result = doWhenTruthy(condition, action);
+      }).should.throw();
+    });
+
+    it('should invoke the action if condition is truthy', function(done){
+      var condition = true;
+      var action = function() { done(); return true; };
+      var result = doWhenTruthy(condition, action);
+      assert(existy(result));
+    });
+
+    it('should not invoke the action if condition is falsey', function(){
+      var condition = false;
+      var action = function() { 
+        fail("shouldn't call action when condition is falsey"); 
+        return false;
+      };
+      var result = doWhenTruthy(condition, action);
+      assert(notExisty(result));
+    });
+  });
+
+  describe('#doWhenFalsey', function(){
+    it('should return undefined when given notExisty condition', function(){
+      var condition;
+      var result = doWhenFalsey(condition, function(){});
+      assert(notExisty(result));
+
+      condition = null;
+      result = doWhenFalsey(condition, function(){});
+      assert(notExisty(result));
+    });
+
+    it('should throw error if action is notExisty', function(){
+      (function(){
+        var condition = false;
+        var action;
+        var result = doWhenFalsey(condition, action);
+      }).should.throw();
+    });
+
+    it('should invoke the action if condition is falsey', function(done){
+      var condition = false;
+      var action = function() { done(); return true; };
+      var result = doWhenFalsey(condition, action);
+      assert(existy(result));
+    });
+
+    it('should not invoke the action if condition is truthy', function(){
+      var condition = true;
+      var action = function() { 
+        fail("shouldn't call action when condition is truthy"); 
+        return false;
+      };
+      var result = doWhenFalsey(condition, action);
+      assert(notExisty(result));
+    });
+  });
+
+  describe('#doWhen', function(){
+    it('should not have access to hidden doWhen function', function(){
+      (function(){
+        doWhen(null, null);
+      }).should.throw();
+    });
+  });
 });
