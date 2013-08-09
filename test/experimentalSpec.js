@@ -30,4 +30,10 @@ describe('Experimental', function(){
       assert(existy(result));
     });
   });
+
+  describe('#canAccessUnderscore', function(){
+    it('should have access to underscore framework', function(){
+      assert(experimental.canAccessUnderscore());
+    });
+  });
 });

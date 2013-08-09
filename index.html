@@ -6,6 +6,7 @@
     <meta charset='utf-8'/>
     <!-- <link rel="stylesheet" href="main.css"></link> -->
     
+    <script src="lib/underscore.js"></script>
     <script src="src/predicates.js"></script>
     <script src="src/tools.js"></script>
 
@@ -18,16 +19,15 @@
         var testButton = document.getElementById('testButton');
         if (existy(testButton)) {
           testButton.addEventListener('click', function(event){
+            console.log('_.VERSION: ' + _.VERSION);
             doArrays();
-            // doExperimental();
+            doExperimental();
           });
         }
       };
 
       function doArrays() {
-        var experimental = Experimental.create();
         var arrays = Arrays.create();
-        console.log('experimental: ' + experimental);
         var func = Arrays.firstItem(['a', 'b', 'c']);
         var value = func();
         console.log('arrays: ' + Tools.inspect(value));
@@ -41,6 +41,7 @@
       function doExperimental() {
         var experimental = Experimental.create();
         console.log('experimental.bar(): ' + experimental.bar());
+        console.log('experimental.canAccessUnderscore(): ' + experimental.canAccessUnderscore());
       };
     </script>
   </head>
