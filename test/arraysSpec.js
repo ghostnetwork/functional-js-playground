@@ -1,6 +1,7 @@
 'use strict';
 
 var assert = require('assert');
+var should = require('should');
 var util = require('util');
 
 require('../src/predicates');
