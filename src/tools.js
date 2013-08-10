@@ -1,6 +1,6 @@
 'use strict';
 
-if (isNotRunningInBrowser) { var _ = require('underscore'); }
+if (isNotRunningInBrowser()) { var _ = require('underscore'); }
 
 (function(exports){
 

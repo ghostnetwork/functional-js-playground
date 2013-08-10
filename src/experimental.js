@@ -4,7 +4,7 @@
 // a snippet for creating a universal module. also serves as 
 // a means of experimenting with ensuring code can run 
 // universally.
-if (isNotRunningInBrowser) { var _ = require('underscore'); }
+if (isNotRunningInBrowser()) { var _ = require('underscore'); }
 
 (function(exports){
 

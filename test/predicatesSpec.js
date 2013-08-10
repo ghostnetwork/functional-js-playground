@@ -190,4 +190,18 @@ describe('predicates', function(){
       }).should.throw();
     });
   });
+
+  describe('#isRunningInBrowser', function(){
+    it('should return false', function(){
+      var result = isRunningInBrowser();
+      assert(falsey(result));
+    });
+  });
+
+  describe('#isNotRunningInBrowser', function(){
+    it('should return true', function(){
+      var result = isNotRunningInBrowser();
+      assert(truthy(result));
+    });
+  });
 });

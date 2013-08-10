@@ -1,6 +1,6 @@
 'use strict';
 
-if (isNotRunningInBrowser) { 
+if (isNotRunningInBrowser()) { 
   var ImmutableArray = require('./immutableArray');
 }
 

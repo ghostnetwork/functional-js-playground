@@ -20,5 +20,5 @@ var doWhen = function(predicate, condition, action) {
   return result;
 };
 
-isRunningInBrowser = (typeof exports === 'undefined');
-isNotRunningInBrowser = isRunningInBrowser === false;
+isRunningInBrowser = function(){ return (typeof exports === 'undefined'); };
+isNotRunningInBrowser = function(){ return isRunningInBrowser() === false; };
