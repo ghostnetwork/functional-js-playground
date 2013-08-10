@@ -1,10 +1,10 @@
-'use strict';
 
 if (isNotRunningInBrowser()) { 
   var ImmutableArray = require('./immutableArray');
 }
 
 (function(exports){
+  'use strict';
 
   exports.create = function() { 
     this.prototype = Array.prototype;
@@ -32,7 +32,7 @@ if (isNotRunningInBrowser()) {
   var rangeOfItems = function(array, range) {
     return function() {
       if (notExisty(array) || notExisty(range)) return undefined;
-      if (array.length == 0) return [];
+      if (array.length === 0) return [];
       if (range.isNotValidFor(array)) return [];
 
       var result = new Array(range.length);
@@ -41,11 +41,11 @@ if (isNotRunningInBrowser()) {
       array.forEach(function(element, index) {
         if (range.isWithin(index)) {
           result[counter++] = element;
-        };
+        }
       });
 
       return ImmutableArray.create(result);
-    }
+    };
   };
 
   var shuffle = function(array) {
