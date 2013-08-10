@@ -7,6 +7,20 @@ var util = require('util');
 require('../src/predicates');
 
 describe('predicates', function(){
+  describe('#isRunningInBrowser', function(){
+    it('should return false', function(){
+      var result = isRunningInBrowser();
+      assert(falsey(result));
+    });
+  });
+
+  describe('#isNotRunningInBrowser', function(){
+    it('should return true', function(){
+      var result = isNotRunningInBrowser();
+      assert(truthy(result));
+    });
+  });
+
   describe('#existy', function(){
     it('should return false when given null', function(){
       var thing = null;
@@ -109,6 +123,34 @@ describe('predicates', function(){
     });
   });
 
+  describe('#oppositeOf', function(){
+    it('should throw error when executing result when given predicate is notExisty', function(){
+      var predicate;
+      var result = oppositeOf(predicate);
+      assert(existy(result));
+
+      (function(){
+        var value = result();
+      }).should.throw();
+    });
+
+    it('should create a function that returns the opposite of the given one', function(){
+      var predicate = isEven;
+      var evenValue = 4;
+      var oddValue = 3;
+
+      var result = isEven(evenValue);
+      assert(truthy(result));
+
+      var myIsOdd = oppositeOf(isEven);
+      result = myIsOdd(evenValue);
+      assert(falsey(result));
+
+      result = myIsOdd(oddValue);
+      assert(truthy(result));
+    });
+  });
+
   describe('#doWhenTruthy', function(){
     it('should return undefined when given notExisty condition', function(){
       var condition;
@@ -191,16 +233,62 @@ describe('predicates', function(){
     });
   });
 
-  describe('#isRunningInBrowser', function(){
-    it('should return false', function(){
-      var result = isRunningInBrowser();
+  describe('#isEven', function(){
+    it('should return false if given value is notExisty', function(){
+      var value;
+      var result = isEven(value);
+      assert(falsey(result));
+    });
+
+    it('should return false if given value is odd', function(){
+      var value = 3;
+      var result = isEven(value);
+      assert(falsey(result));
+    });
+
+    it('should return true if given value is even', function(){
+      var value = 4;
+      var result = isEven(value);
+      assert(truthy(value));
+    });
+
+    it('should return false if given value is not a number', function(){
+      var value = 'abcdefghijklmn';
+      var result = isEven(value);
+      assert(falsey(result));
+
+      value = [1, 2, 3, 4, 5];
+      result = isEven(value);
       assert(falsey(result));
     });
   });
 
-  describe('#isNotRunningInBrowser', function(){
-    it('should return true', function(){
-      var result = isNotRunningInBrowser();
+  describe('#isOdd', function(){
+    it('should return false if given value is notExisty', function(){
+      var value;
+      var result = isOdd(value);
+      assert(truthy(result));
+    });
+
+    it('should return false if given value is odd', function(){
+      var value = 3;
+      var result = isOdd(value);
+      assert(truthy(result));
+    });
+
+    it('should return true if given value is even', function(){
+      var value = 4;
+      var result = isOdd(value);
+      assert(truthy(value));
+    });
+
+    it('should return false if given value is not a number', function(){
+      var value = 'abcdefghijklmn';
+      var result = isOdd(value);
+      assert(truthy(result));
+
+      value = [1, 2, 3, 4, 5];
+      result = isOdd(value);
       assert(truthy(result));
     });
   });
