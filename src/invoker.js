@@ -1,6 +1,4 @@
-if (isNotRunningInBrowser()) { 
-  var _ = require('underscore');
-}
+if (isNotRunningInBrowser()) {  var _ = require('underscore'); }
 
 invoker = function(name, method) {
   return function(target /* args ... */) {
@@ -9,7 +7,7 @@ invoker = function(name, method) {
     var targetMethod = target[name];
     var args = _.rest(arguments);
 
-    function check() { return existy(targetMethod) && method === targetMethod; };
+    function check() { return existy(targetMethod) && method === targetMethod; }
 
     return doWhenTruthy(check, function() {
       return targetMethod.apply(target, args);

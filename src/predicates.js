@@ -4,11 +4,11 @@ isNotRunningInBrowser = function(){ return isRunningInBrowser() === false; };
 
 if (isNotRunningInBrowser()) { var _ = require('underscore'); }
 
-existy = function (x) { return x != null };
-notExisty = function (x) { return existy(x) === false };
-truthy = function (x) { return (x !== false) && existy(x) };
-falsey = function (x) { return truthy(x) === false };
-fail = function(thing) { throw new Error(thing) };
+existy = function (x) { return x != null; }; // Note: must use !=, to force conversion
+notExisty = function (x) { return existy(x) === false; };
+truthy = function (x) { return (x !== false) && existy(x); };
+falsey = function (x) { return truthy(x) === false; };
+fail = function(thing) { throw new Error(thing); };
 
 oppositeOf = function(predicate) {
   return function() {
@@ -19,7 +19,7 @@ oppositeOf = function(predicate) {
 doWhenTruthy = function(condition, action) { return doWhen(truthy, condition, action); };
 doWhenFalsey = function(condition, action) { return doWhen(falsey, condition, action); };
 var doWhen = function(predicate, condition, action) {
-  var result = undefined;
+  var result;
   if (predicate(condition))
     result = action();
   return result;
@@ -27,3 +27,10 @@ var doWhen = function(predicate, condition, action) {
 
 isEven = function (n) { return (n % 2) === 0; };
 isOdd = oppositeOf(isEven);
+
+isa = function(type, action) { 
+  return function(object){ 
+    if (type === object.type)
+      return action(object);
+  };
+};

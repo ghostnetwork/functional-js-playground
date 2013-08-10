@@ -292,4 +292,41 @@ describe('predicates', function(){
       assert(truthy(result));
     });
   });
+
+  describe('#isa', function(){
+    it('should throw if type is notExisty', function(){
+      var type;
+      var action = function(){};
+      var result = isa(type, action);
+      (function(){
+        result(type);
+      }).should.throw();
+    });
+
+    it('should return a notExisty value if thing has no type field', function(){
+      var type = {};
+      var action = function(){};
+      var result = isa(type, action);
+      var value = result(type);
+      assert(notExisty(value));
+    });
+
+    it('should return the expected value', function(done){
+      var expected = 'zed';
+      var action = function() { done(); return expected; };
+      var func = isa(expected, action);
+      var thing = { type: expected };
+      var result = func(thing);
+      (result).should.equal(expected);
+    });
+
+    it('should return notExisty if given an unexpected value', function(){
+      var expected = 'halogen';
+      var action = function() { done(); return expected; };
+      var func = isa(expected, action);
+      var thing = { type: 'oxygen' };
+      var result = func(thing);
+      assert(notExisty(result));
+    });
+  });
 });

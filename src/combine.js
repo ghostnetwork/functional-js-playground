@@ -1,6 +1,4 @@
-if (isNotRunningInBrowser()) { 
-  var _ = require('underscore');
-}
+if (isNotRunningInBrowser()) {  var _ = require('underscore'); }
 
 combine = function() {
   var head = _.first(arguments);
