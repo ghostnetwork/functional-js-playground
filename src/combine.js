@@ -1,7 +1,3 @@
-// Make this in the global namespace;
-// we'll fill it in down below
-combine = undefined;
-
 if (isNotRunningInBrowser()) { 
   var _ = require('underscore');
 }

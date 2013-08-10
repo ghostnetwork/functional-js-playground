@@ -13,6 +13,7 @@
     <script src="src/range.js"></script>
     <script src="src/immutableArray.js"></script>
     <script src="src/arrays.js"></script>
+    <script src="src/combine.js"></script>
     <script src="src/experimental.js"></script>
 
     <script type="text/javascript">
@@ -30,12 +31,18 @@
       };
 
       function doArrays() {
+        var letters = ['a', 'b', 'c'];
+        var numbers = [1, 2, 3];
+        var liars = ['z', 'y', 'x'];
+
         var arrays = Arrays.create();
-        var func = Arrays.firstItem(['a', 'b', 'c']);
+        var func = Arrays.firstItem(letters);
         var value = func();
+        
         console.log('arrays: ' + Tools.inspect(value));
 
-        console.log('combine: ' + Tools.inspect(combine()));
+        var result = combine(letters, numbers, liars.reverse());
+        console.log('result: ' + result);
       }
 
       function doImmutableArray() {
