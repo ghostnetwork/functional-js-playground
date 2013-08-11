@@ -8,7 +8,7 @@ ImmutableArray.createFilledWith = function(times, thing) {
   var array = [times];
   for (var i = 0; i < times; i++) {
     array[i] = thing;
-  };
+  }
   return ImmutableArray.create(array);
 };
 
@@ -26,7 +26,7 @@ containing every other N items from the source.
 */
 ImmutableArray.makeEveryOther = function(n, source) {
   return function(){
-    return everyOtherN(n, source)
+    return everyOtherN(n, source);
   };
 };
 
@@ -37,10 +37,10 @@ var everyOtherN = function(n, sourceArray) {
   var array = [];
 
   sourceArray.forEach(function(element, index) {
-    if (index % n == 0) {
+    if (index % n === 0) {
       array.push(element);
-    };
-  })
+    }
+  });
 
   return ImmutableArray.create(array);
 };

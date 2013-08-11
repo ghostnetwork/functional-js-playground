@@ -1,6 +1,6 @@
-'use strict';
 
 (function(exports){
+  'use strict';
 
   exports.create = function(start, end, mutable) { 
     this.prototype = Function.prototype;
@@ -28,13 +28,13 @@
           && that.end >= 0 
           && that.end <= array.length;
     };
-    that.isNotValidFor = function(array) { return that.isValidFor(array) == false; };
+    that.isNotValidFor = function(array) { return that.isValidFor(array) === false; };
 
     that.toString = function() {
       return 'start: ' + this.start + ', end: ' + this.end;
     };
 
-    function rangeLength(start, end) { return end - start; };
+    function rangeLength(start, end) { return end - start; }
 
     function createRange(start, end, mutable) { 
       var range;
@@ -57,7 +57,7 @@
       }
 
       return range;
-    };
+    }
 
     return that;
   };
@@ -71,5 +71,4 @@
     var that = exports.create(0, 0);
     return that;
   };
-
-})(typeof exports === 'undefined'? this['Range']={}: exports);
+})(typeof exports === 'undefined'? this.Range={}: exports);

@@ -1,6 +1,6 @@
-'use strict';
 
 (function(exports){
+  'use strict';
 
   var ImmutableArrayPrototype = {};
 
@@ -14,12 +14,12 @@
 
     that.itemAtIndex = function(index) { return mutableArray[index]; };
 
-    that.isEmpty = function() { return mutableArray.length == 0; };
-    that.isNotEmpty = function() { return that.isEmpty() == false; };
-    that.isImmutable = function() { return true; }
+    that.isEmpty = function() { return mutableArray.length === 0; };
+    that.isNotEmpty = function() { return that.isEmpty() === false; };
+    that.isImmutable = function() { return true; };
 
     that.concat = function(other) {
-      if (other == null || other == undefined) return that;
+      if (other === null || other === undefined) return that;
       var clone = mutableArray.concat(other);
       return exports.create(clone);
     };
@@ -32,7 +32,7 @@
           result += ',';
       });
       return result;
-    }
+    };
 
     that.forEach = defaultForEach;
     that.every = defaultEvery;
@@ -46,10 +46,10 @@
       if (isImmutable(array))
         return wrapImmutableArray(array);
       else
-        return wrapArray(array);;
+        return wrapArray(array);
     }
-    function wrapArray(array) { return array || []; };
-    function wrapImmutableArray(immutable) { return wrapArray(immutable.mutableCopy()); };
+    function wrapArray(array) { return array || []; }
+    function wrapImmutableArray(immutable) { return wrapArray(immutable.mutableCopy()); }
 
     // cribbed from http://goo.gl/LOzO4
     function defaultForEach(fn, scope) {
@@ -59,7 +59,7 @@
             fn.call(scope, mutableArray[i], i);
         }
       }
-    };
+    }
 
     // cribbed from http://goo.gl/CrjX4
     function defaultEvery(fun /*, thisp */) {
@@ -79,7 +79,7 @@
       }
 
       return true;
-    };
+    }
 
     // cribbed from http://goo.gl/SO15V
     function defaultSome(fun /*, thisp */) {
@@ -96,7 +96,7 @@
       }
 
       return false;
-    };
+    }
 
     function defaultContains(target) {
       return mutableArray.indexOf(target) != -1;
@@ -124,8 +124,8 @@
       result = other.prototype === ImmutableArrayPrototype;
 
     return result;
-  };
+  }
 
   exports.isImmutable = isImmutable;
 
-})(typeof exports === 'undefined'? this['ImmutableArray']={}: exports);
+})(typeof exports === 'undefined'? this.ImmutableArray={}: exports);

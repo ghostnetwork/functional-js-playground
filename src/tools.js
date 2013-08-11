@@ -1,8 +1,8 @@
-'use strict';
-
+/*jshint undef:false */
 if (isNotRunningInBrowser()) { var _ = require('underscore'); }
 
 (function(exports){
+  'use strict';
 
   var inspect = function(obj, showHidden, depth, colors) {
     var seen = [];
@@ -212,4 +212,4 @@ if (isNotRunningInBrowser()) { var _ = require('underscore'); }
 
   exports.inspect = inspect;
 
-})(typeof exports === 'undefined'? this['Tools']={}: exports);
+})(typeof exports === 'undefined'? this.Tools={}: exports);

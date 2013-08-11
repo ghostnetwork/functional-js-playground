@@ -35,7 +35,7 @@ MONAD = function() {
   };
 
   return createMonad;
-}
+};
 
 maybe = MONAD(function (monad, value){
   if (value === null || value === undefined) {

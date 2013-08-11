@@ -11,7 +11,6 @@ require('./immutableArrayData');
 var data = immutableArrayData();
 
 describe('immutable', function(){
-
   describe('#ImmutableArray', function(){
     it('should ensure each instance of an ImmutableArray is unique', function(){
       var hydrogen = ImmutableArray.create(data.numbers);

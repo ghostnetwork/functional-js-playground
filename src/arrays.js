@@ -1,7 +1,5 @@
 
-if (isNotRunningInBrowser()) { 
-  var ImmutableArray = require('./immutableArray');
-}
+if (isNotRunningInBrowser()) { var ImmutableArray = require('./immutableArray'); }
 
 (function(exports){
   'use strict';
@@ -75,4 +73,4 @@ if (isNotRunningInBrowser()) {
   exports.isImmutable = isImmutable;
   exports.isNotImmutable = isNotImmutable;
 
-})(typeof exports === 'undefined'? this['Arrays']={}: exports);
+})(typeof exports === 'undefined'? this.Arrays={}: exports);

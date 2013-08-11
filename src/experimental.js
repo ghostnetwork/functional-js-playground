@@ -21,5 +21,5 @@ if (isNotRunningInBrowser()) { var _ = require('underscore'); }
   // a 'static' method
   exports.fooExperimental = function(){ return 'i am fooExperimental'; };
 
-})(typeof exports === 'undefined'? this['Experimental']={}: exports);
+})(typeof exports === 'undefined'? this.Experimental={}: exports);
 // works in browser and node.js!!!

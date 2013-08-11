@@ -1,5 +1,4 @@
-'use strict';
-
+/*jshint undef:false */
 require('./predicates');
 require('./arrays');
 require('./range');

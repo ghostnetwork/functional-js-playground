@@ -140,10 +140,10 @@ describe('predicates', function(){
     });
   });
 
-  describe('#oppositeOf', function(){
+  describe('#makeOppositeOf', function(){
     it('should throw error when executing result when given predicate is notExisty', function(){
       var predicate;
-      var result = oppositeOf(predicate);
+      var result = makeOppositeOf(predicate);
       assert(existy(result));
 
       (function(){
@@ -159,7 +159,7 @@ describe('predicates', function(){
       var result = isEven(evenValue);
       assert(truthy(result));
 
-      var myIsOdd = oppositeOf(isEven);
+      var myIsOdd = makeOppositeOf(isEven);
       result = myIsOdd(evenValue);
       assert(falsey(result));
 

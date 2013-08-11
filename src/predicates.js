@@ -1,19 +1,21 @@
+not = function(x) { return !x; };
 
 isRunningInBrowser = function(){ return (typeof exports === 'undefined'); };
-isNotRunningInBrowser = function(){ return isRunningInBrowser() === false; };
+isNotRunningInBrowser = function(){ return not(isRunningInBrowser()); };
 
 if (isNotRunningInBrowser()) { var _ = require('underscore'); }
 
-existy = function (x) { return x != null; }; // Note: must use !=, to force conversion
+/* jshint eqeqeq:false */
+/* jshint eqnull:true */
+existy = function (x) { return x != null; }; // Using != here to force conversion
 notExisty = function (x) { return existy(x) === false; };
 truthy = function (x) { return (x !== false) && existy(x); };
 falsey = function (x) { return truthy(x) === false; };
 fail = function(thing) { throw new Error(thing); };
-not = function(x) { return !x; };
 
-oppositeOf = function(predicate) {
+makeOppositeOf = function(predicate) {
   return function() {
-    return !predicate.apply(null, _.toArray(arguments));
+    return not(predicate.apply(null, _.toArray(arguments)));
   };
 };
 
@@ -27,7 +29,7 @@ var doWhen = function(predicate, condition, action) {
 };
 
 isEven = function (n) { return (n % 2) === 0; };
-isOdd = oppositeOf(isEven);
+isOdd = makeOppositeOf(isEven);
 
 isa = function(type, action) { 
   return function(object){ 
