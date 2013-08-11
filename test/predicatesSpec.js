@@ -123,6 +123,23 @@ describe('predicates', function(){
     });
   });
 
+  describe('#not', function(){
+    it('should return true when given notExisty', function(){
+      var result = not();
+      assert(result);
+    });
+
+    it('should return true when given falsey', function(){
+      var result = not(false);
+      assert(result);
+    });
+
+    it('should return false when given truthy', function(){
+      var result = not(true);
+      assert(falsey(result));
+    });
+  });
+
   describe('#oppositeOf', function(){
     it('should throw error when executing result when given predicate is notExisty', function(){
       var predicate;
