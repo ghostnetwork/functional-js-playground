@@ -10,8 +10,8 @@
     // Public API
     that.parseIntoWords = parseIntoWords;
     that.parseIntoLetters = parseIntoLetters;
-    that.filterEmpty = filterEmpty;
-    that.letterCountSorted = letterCountSorted;
+    that.filterNonAlphanumeric = filterNonAlphanumeric;
+    that.letterCountSortedDescending = letterCountSortedDescending;
 
     that.isEmpty = isEmpty;
     that.isNotEmpty = isNotEmpty;
@@ -26,13 +26,13 @@
   // local implementations
   function parseIntoWords(input) {  return _.filter(input.split(' '), isNotEmpty); }
   function parseIntoLetters(input) { return input.split(''); }
-  function filterEmpty(words) { return _.filter(words, isAlphanumeric); }
+  function filterNonAlphanumeric(words) { return _.filter(words, isAlphanumeric); }
 
   function isEmpty(element) { return _.isEmpty(element); }
   function isNotEmpty(element) { return not(isEmpty(element)); }
   function isAlphanumeric(character) { return character.match(/^[0-9a-zA-Z]+$/); };
 
-  function letterCountSorted (words) {
+  function letterCountSortedDescending(words) {
     var letters = [];
 
     words.forEach(function(element) {
@@ -41,7 +41,7 @@
       return letters;
     });
 
-    letters = filterEmpty(letters);
+    letters = filterNonAlphanumeric(letters);
 
     var count = _.countBy(letters, _.identity);
     var countFlipped = flipArray(count);

@@ -15,5 +15,5 @@ var lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing e1lit, sed do e
 
 var app = StringTheory.create();
 var words = app.parseIntoWords(lorem);
-var result = app.letterCountSorted(words);
+var result = app.letterCountSortedDescending(words);
 console.log('result: ' + util.inspect(result));
