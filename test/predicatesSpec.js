@@ -346,4 +346,26 @@ describe('predicates', function(){
       assert(notExisty(result));
     });
   });
+
+  describe('#functionFromJSON', function(){
+    it('should throw error if json is notExisty', function(){
+      (function(){
+        var json;
+        var result = functionFromJSON(json);
+      }).should.throw();
+    });
+
+    it('should be able to recreate a Function from JSON', function(){
+      var task = function(a){return a;};
+      var taskJSON = task.toString();
+      var worker = functionFromJSON(taskJSON);
+      assert(existy(worker));
+      assert(_.isFunction(worker));
+
+      var fixture = 'carbon';
+      var result = worker(fixture);
+      assert(existy(result));
+      (result).should.equal(fixture);
+    });
+  });
 });

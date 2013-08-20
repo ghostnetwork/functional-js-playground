@@ -37,3 +37,13 @@ isa = function(type, action) {
       return action(object);
   };
 };
+
+functionFromJSON = function(json) {
+  var startBody = json.indexOf('{') + 1
+    , endBody = json.lastIndexOf('}')
+    , startArgs = json.indexOf('(') + 1
+    , endArgs = json.indexOf(')')
+    , args = json.substring(startArgs, endArgs)
+    , body = json.substring(startBody, endBody);
+  return new Function(args, body);
+}
