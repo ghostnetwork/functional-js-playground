@@ -1,4 +1,4 @@
-verdoux
-=======
+functional-js-playground
+========================
 
-drunken-octo-robot
+just for playing around with javascript in a functional way
